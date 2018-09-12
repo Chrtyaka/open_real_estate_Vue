@@ -9,7 +9,6 @@ import VueTabs from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/material.css'
 import {store} from "./store/store";
 
-
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
