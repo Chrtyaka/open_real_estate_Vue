@@ -5,19 +5,20 @@
           <h5 style="margin-left: auto; margin-right: auto;" class="mt-2">Средняя цена объекта</h5>
         </div>
         <div class="row mt-3 mb-1">
-          <div class="dropdown z-depth-1" @click="showDropDown('typeBuild')">
-            <div class="col-10">
-              <a>{{dropDowns.typeBuild.title}}</a>
-            </div>
-            <div class="col-2">
-              <i class="fa fa-sort-down fa-2x"></i>
+          <label for="typeRealty">Тип недвижимости</label>
+          <div class="dropdown" @click="showDropDown('typeBuild')" id="typeRealty">
+            <div class="col-12 dropdown-title-wrapper">
+              <a class="dropdown-title">{{dropDowns.typeBuild.title}}</a>
+              <i class="fa fa-angle-down"></i>
             </div>
             <transition
               enter-active-class="drop-in"
               leave-active-class="drop-out">
               <div class="dropdown-content z-depth-1" v-show="dropDowns.typeBuild.active">
-                <ul>
-                  <li v-for="item in dropDowns.typeBuild.values" @click = "selectDropDownItem('typeBuild', item); typeRealEstate = item"><a>{{item}}</a></li>
+                <ul class="dropdown-list">
+                  <li class="dropdown-list-item" v-for="item in dropDowns.typeBuild.values" @click = "selectDropDownItem('typeBuild', item); typeRealEstate = item">
+                    <a class="dropdown-list-item-value">{{item}}</a>
+                  </li>
                 </ul>
               </div>
             </transition>
@@ -26,20 +27,21 @@
         </div>
 
         <div class="row mt-3">
-          <div class="dropdown z-depth-1" @click="showDropDown('city')">
-            <div class="col-10">
-              <a>{{dropDowns.city.title}}</a>
-            </div>
-            <div class="col-2">
-              <i class="fa fa-sort-down fa-2x"></i>
+          <label for="city">Город</label>
+          <div class="dropdown" @click="showDropDown('city')" id="city">
+            <div class="col-12 dropdown-title-wrapper">
+              <a class="dropdown-title">{{dropDowns.city.title}}</a>
+              <i class="fa fa-angle-down"></i>
             </div>
             <transition
             enter-active-class="drop-in"
             leave-active-class="drop-out">
               <div class="dropdown-content z-depth-1" v-show="dropDowns.city.active">
-                <ul>
+                <ul class="dropdown-list">
                   <li v-for="item in dropDowns.city.values"
-                      @click = "selectDropDownItem('city', item)"><a>{{item}}</a></li>
+                      @click = "selectDropDownItem('city', item)" class="dropdown-list-item">
+                    <a class="dropdown-list-item-value">{{item}}</a>
+                  </li>
                 </ul>
               </div>
             </transition>
@@ -105,40 +107,20 @@
 
         <div v-show="typeRealEstate == 'Комнаты' || typeRealEstate == 'Дома' || typeRealEstate =='Квартиры'">
           <div class="row mt-3">
-            <div class="dropdown z-depth-1" @click="showDropDown('typeAdvert')">
-              <div class="col-10">
-                <a>{{dropDowns.typeAdvert.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
+            <label for="typeAdvert">Тип объявления</label>
+            <div class="dropdown" @click="showDropDown('typeAdvert')" id="typeAdvert">
+              <div class="col-12 dropdown-title-wrapper">
+                <a class="dropdown-title">{{dropDowns.typeAdvert.title}}</a>
+                <i class="fa fa-angle-down"></i>
               </div>
               <transition enter-active-class="drop-in"
               leave-active-class="drop-out">
                 <div class="dropdown-content z-depth-1" v-show="dropDowns.typeAdvert.active">
-                  <ul>
+                  <ul class="dropdown-list">
                     <li v-for = "item in dropDowns.typeAdvert.values"
-                        @click = "selectDropDownItem('typeAdvert', item)"><a>{{item}}</a></li>
-                  </ul>
-                </div>
-              </transition>
-
-            </div>
-          </div>
-
-          <div class="row mt-3">
-            <div class="dropdown z-depth-1" @click="showDropDown('wallMaterial')">
-              <div class="col-10">
-                <a>{{dropDowns.wallMaterial.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
-              </div>
-              <transition enter-active-class="drop-in"
-              leave-active-class="drop-out">
-                <div class="dropdown-content z-depth-1" v-show=" dropDowns.wallMaterial.active ">
-                  <ul>
-                    <li v-for="item in dropDowns.wallMaterial.values" @click = "selectDropDownItem('wallMaterial', item)">
-                      <a>{{item}}</a>
+                        @click = "selectDropDownItem('typeAdvert', item)"
+                        class="dropdown-list-item">
+                      <a class="dropdown-list-item-value">{{item}}</a>
                     </li>
                   </ul>
                 </div>
@@ -148,17 +130,38 @@
           </div>
 
           <div class="row mt-3">
-            <p>Количество комнат</p>
+            <label for="wallMaterial">Материал стен</label>
+            <div class="dropdown" @click="showDropDown('wallMaterial')" id="wallMaterial">
+              <div class="col-12 dropdown-title-wrapper">
+                <a class="dropdown-title">{{dropDowns.wallMaterial.title}}</a>
+                <i class="fa fa-angle-down"></i>
+              </div>
+              <transition enter-active-class="drop-in"
+                          leave-active-class="drop-out">
+                <div class="dropdown-content z-depth-1" v-show=" dropDowns.wallMaterial.active ">
+                  <ul class="dropdown-list">
+                    <li v-for="item in dropDowns.wallMaterial.values"
+                        @click = "selectDropDownItem('wallMaterial', item)"
+                        class="dropdown-list-item">
+                      <a class="dropdown-list-item-value">{{item}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </transition>
+
+            </div>
           </div>
-          <div class="row">
-            <div class="container-fluid">
+
+          <div class="row mt-3">
+            <label for="countRooms">Количество комнат</label>
+            <div class="container-fluid" id="countRooms">
               <div v-if="typeRealEstate == 'Квартиры'" :key="88">
                 <input type="checkbox" class="checkbox"
                        value="Студия"
                        id = "Студия"
                        :key="99"
                        v-model="outputParams.countRooms">
-                <label for="Студия">Студия</label>
+                <label for="Студия" style="color: #212121">Студия</label>
               </div>
               <div v-for="(item, index) in rooms" :key="index">
                 <input type="checkbox" class="checkbox"
@@ -166,7 +169,7 @@
                        :value = "item"
                        :key="index"
                        v-model="outputParams.countRooms">
-                <label :for="item">{{item}}</label>
+                <label :for="item" style="color: #212121">{{item}}</label>
               </div>
             </div>
           </div>
@@ -211,19 +214,20 @@
         <div v-show="typeRealEstate == 'Офисы'">
 
           <div class="row mt-3">
-            <div class="dropdown z-depth-1" @click = "showDropDown('layout')">
-              <div class="col-10">
-                <a>{{dropDowns.layout.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
+            <label for="offLayout">Планировка</label>
+            <div class="dropdown" @click = "showDropDown('layout')" id="offLayout">
+              <div class="col-12 dropdown-title-wrapper">
+                <a class="dropdown-title">{{dropDowns.layout.title}}</a>
+                <i class="fa fa-angle-down"></i>
               </div>
               <transition enter-active-class="drop-in"
               leave-active-class="drop-out">
                 <div class="dropdown-content z-depth-1" v-show="dropDowns.layout.active">
-                  <ul>
-                    <li v-for = "item in dropDowns.layout.values" @click = "selectDropDownItem('layout', item)">
-                      <a>{{item}}</a>
+                  <ul class="dropdown-list">
+                    <li v-for = "item in dropDowns.layout.values"
+                        @click = "selectDropDownItem('layout', item)"
+                        class="dropdown-list-item">
+                      <a class="dropdown-list-item-value">{{item}}</a>
                     </li>
                   </ul>
                 </div>
@@ -236,20 +240,20 @@
         <div v-show="typeRealEstate == 'Торговля' || typeRealEstate == 'Помещения' ">
 
           <div class="row mt-3">
-            <div class="dropdown z-depth-1 " @click = "showDropDown('typePremises','trade')">
-              <div class="col-10">
-                <a>{{dropDowns.trade.typePremises.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
+            <label for="tradeTypePren">Тип помещения</label>
+            <div class="dropdown" @click = "showDropDown('typePremises','trade')" id="tradeTypePren">
+              <div class="col-12 dropdown-title-wrapper">
+                <a class="dropdown-title">{{dropDowns.trade.typePremises.title}}</a>
+                <i class="fa fa-angle-down"></i>
               </div>
               <transition enter-active-class="drop-in"
-              leave-active-class="drop-out">
+                          leave-active-class="drop-out">
                 <div class="dropdown-content z-depth-1" v-show="dropDowns.trade.typePremises.active">
-                  <ul>
+                  <ul class="dropdown-list">
                     <li v-for = "item in dropDowns.trade.typePremises.values"
-                        @click = "selectDropDownItem('typePremises', item, 'trade')">
-                      <a>{{item}}</a>
+                        @click = "selectDropDownItem('typePremises', item, 'trade')"
+                        class="dropdown-list-item">
+                      <a class="dropdown-list-item-value">{{item}}</a>
                     </li>
                   </ul>
                 </div>
@@ -258,20 +262,20 @@
           </div>
 
           <div class="row mt-3">
-            <div class="dropdown z-depth-1" @click = "showDropDown('specialization','trade')">
-              <div class="col-10">
-                <a>{{dropDowns.trade.specialization.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
+            <label for="tradeSpec">Специализация</label>
+            <div class="dropdown" @click = "showDropDown('specialization','trade')" id="tradeSpec">
+              <div class="col-12 dropdown-title-wrapper">
+                <a class="dropdown-title-item">{{dropDowns.trade.specialization.title}}</a>
+                <i class="fa fa-angle-down"></i>
               </div>
               <transition enter-active-class="drop-in"
-              leave-active-class="drop-out">
+                          leave-active-class="drop-out">
                 <div class="dropdown-content z-depth-1" v-show="dropDowns.trade.specialization.active">
-                  <ul>
+                  <ul class="dropdown-list">
                     <li v-for="item in dropDowns.trade.specialization.values"
-                        @click = "selectDropDownItem('specialization', item, 'trade')">
-                      <a>{{item}}</a>
+                        @click = "selectDropDownItem('specialization', item, 'trade')"
+                        class="dropdown-list-item">
+                      <a class="dropdown-list-item-value">{{item}}</a>
                     </li>
                   </ul>
                 </div>
@@ -280,20 +284,20 @@
           </div>
 
           <div class="row mt-3">
-            <div class="dropdown z-depth-1" @click = "showDropDown('entrance','trade')">
-              <div class="col-10">
-                <a>{{dropDowns.trade.entrance.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
+            <label for="tradeEnt">Вход</label>
+            <div class="dropdown" @click = "showDropDown('entrance','trade')" id="tradeEnt">
+              <div class="col-12 dropdown-title-wrapper">
+                <a class="dropdown-title">{{dropDowns.trade.entrance.title}}</a>
+                <i class="fa fa-angle-down"></i>
               </div>
               <transition enter-active-class="drop-in"
-              leave-active-class="drop-out">
+                          leave-active-class="drop-out">
                 <div class="dropdown-content z-depth-1" v-show="dropDowns.trade.entrance.active">
-                  <ul>
+                  <ul class="dropdown-list">
                     <li v-for="item in dropDowns.trade.entrance.values"
-                        @click = "selectDropDownItem('entrance', item, 'trade')">
-                      <a>{{item}}</a>
+                        @click = "selectDropDownItem('entrance', item, 'trade')"
+                        class="dropdown-list-item">
+                      <a class="dropdown-list-item-value">{{item}}</a>
                     </li>
                   </ul>
                 </div>
@@ -305,20 +309,20 @@
 
         <div v-if="typeRealEstate == 'Гаражи'">
           <div class="row mt-3">
-            <div class="dropdown z-depth-1" @click = "showDropDown('typeGarage','garage')">
-              <div class="col-10">
-                <a>{{dropDowns.garage.typeGarage.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
+            <label for="garageTypeG">Тип гаража</label>
+            <div class="dropdown" @click = "showDropDown('typeGarage','garage')" id="garageTypeG">
+              <div class="col-12 dropdown-title-wrapper">
+                <a class="dropdown-title">{{dropDowns.garage.typeGarage.title}}</a>
+                <i class="fa fa-angle-down"></i>
               </div>
               <transition enter-active-class="drop-in"
                           leave-active-class="drop-out">
                 <div class="dropdown-content z-depth-1" v-show="dropDowns.garage.typeGarage.active">
-                  <ul>
+                  <ul class="dropdown-list">
                     <li v-for="item in dropDowns.garage.typeGarage.values"
-                        @click = "selectDropDownItem('typeGarage', item, 'garage')">
-                      <a>{{item}}</a>
+                        @click = "selectDropDownItem('typeGarage', item, 'garage')"
+                        class="dropdown-list-item">
+                      <a class="dropdown-list-item-value">{{item}}</a>
                     </li>
                   </ul>
                 </div>
@@ -327,20 +331,20 @@
           </div>
 
           <div class="row mt-3">
-            <div class="dropdown z-depth-1" @click = "showDropDown('typeConstruct','garage')">
-              <div class="col-10">
-                <a>{{dropDowns.garage.typeConstruct.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
+            <label for="garageTypeC">Тип конструкции</label>
+            <div class="dropdown" @click = "showDropDown('typeConstruct','garage')" id="garageTypeC">
+              <div class="col-12 dropdown-title-wrapper">
+                <a class="dropdown-title">{{dropDowns.garage.typeConstruct.title}}</a>
+                <i class="fa fa-angle-down"></i>
               </div>
               <transition enter-active-class="drop-in"
                           leave-active-class="drop-out">
                 <div class="dropdown-content z-depth-1" v-show="dropDowns.garage.typeConstruct.active">
-                  <ul>
+                  <ul class="dropdown-list">
                     <li v-for="item in dropDowns.garage.typeConstruct.values"
-                        @click = "selectDropDownItem('typeConstruct', item, 'garage')">
-                      <a>{{item}}</a>
+                        @click = "selectDropDownItem('typeConstruct', item, 'garage')"
+                        class="dropdown-list-item">
+                      <a class="dropdown-list-item-value">{{item}}</a>
                     </li>
                   </ul>
                 </div>
@@ -349,20 +353,20 @@
           </div>
 
           <div class="row mt-3">
-            <div class="dropdown z-depth-1" @click = "showDropDown('status','garage')">
-              <div class="col-10">
-                <a>{{dropDowns.garage.status.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
+            <label for="garageStatus">Статус</label>
+            <div class="dropdown" @click = "showDropDown('status','garage')" id="garageStatus">
+              <div class="col-12 dropdown-title-wrapper">
+                <a class="dropdown-title">{{dropDowns.garage.status.title}}</a>
+                <i class="fa fa-angle-down"></i>
               </div>
               <transition enter-active-class="drop-in"
                           leave-active-class="drop-out">
                 <div class="dropdown-content z-depth-1" v-show="dropDowns.garage.status.active">
-                  <ul>
+                  <ul class="dropdown-list">
                     <li v-for="item in dropDowns.garage.status.values"
-                        @click = "selectDropDownItem('status', item, 'garage')">
-                      <a>{{item}}</a>
+                        @click = "selectDropDownItem('status', item, 'garage')"
+                        class="dropdown-list-item">
+                      <a class="dropdown-list-item-value">{{item}}</a>
                     </li>
                   </ul>
                 </div>
@@ -371,20 +375,20 @@
           </div>
 
           <div class="row mt-3">
-            <div class="dropdown z-depth-1" @click = "showDropDown('heating','garage')">
-              <div class="col-10">
-                <a>{{dropDowns.garage.heating.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
+            <label for="garageHeat">Отопление</label>
+            <div class="dropdown" @click = "showDropDown('heating','garage')" id="garageHeat">
+              <div class="col-12 dropdown-title-wrapper" >
+                <a class="dropdown-title">{{dropDowns.garage.heating.title}}</a>
+                <i class="fa fa-angle-down"></i>
               </div>
               <transition enter-active-class="drop-in"
                           leave-active-class="drop-out">
                 <div class="dropdown-content z-depth-1" v-show="dropDowns.garage.heating.active">
-                  <ul>
+                  <ul class="dropdown-list">
                     <li v-for="item in dropDowns.garage.heating.values"
-                        @click = "selectDropDownItem('heating', item, 'garage')">
-                      <a>{{item}}</a>
+                        @click = "selectDropDownItem('heating', item, 'garage')"
+                        class="dropdown-list-item">
+                      <a class="dropdown-list-item-value">{{item}}</a>
                     </li>
                   </ul>
                 </div>
@@ -396,20 +400,20 @@
 
         <div v-if="typeRealEstate == 'Склады'">
           <div class="row mt-3">
-            <div class="dropdown z-depth-1" @click = "showDropDown('crane','stock')">
-              <div class="col-10">
+            <label for="stockCrane">Кран</label>
+            <div class="dropdown" @click = "showDropDown('crane','stock')" id="stockCrane">
+              <div class="col-12 dropdown-title-wrapper">
                 <a>{{dropDowns.stock.crane.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
+                <i class="fa fa-angle-down"></i>
               </div>
               <transition enter-active-class="drop-in"
                           leave-active-class="drop-out">
                 <div class="dropdown-content z-depth-1" v-show="dropDowns.stock.crane.active">
-                  <ul>
+                  <ul class="dropdown-list">
                     <li v-for="item in dropDowns.stock.crane.values"
-                        @click = "selectDropDownItem('crane',item,'stock')">
-                      <a>{{item}}</a>
+                        @click = "selectDropDownItem('crane',item,'stock')"
+                        class="dropdown-list-item">
+                      <a class="dropdown-list-item-value">{{item}}</a>
                     </li>
                   </ul>
                 </div>
@@ -418,20 +422,20 @@
           </div>
 
           <div class="row mt-3">
-            <div class="dropdown z-depth-1"  @click = "showDropDown('gate','stock')">
-              <div class="col-10">
-                <a>{{dropDowns.stock.gate.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
+            <label for="stockGate">Ворота</label>
+            <div class="dropdown"  @click = "showDropDown('gate','stock')" id="stockGate">
+              <div class="col-12 dropdown-title-wrapper">
+                <a class="dropdown-title">{{dropDowns.stock.gate.title}}</a>
+                <i class="fa fa-angle-down"></i>
               </div>
               <transition enter-active-class="drop-in"
                           leave-active-class="drop-out">
                 <div class="dropdown-content z-depth-1" v-show="dropDowns.stock.gate.active">
-                  <ul>
+                  <ul class="dropdown-list">
                     <li v-for="item in dropDowns.stock.gate.values"
-                        @click = "selectDropDownItem('gate',item,'stock')">
-                      <a>{{item}}</a>
+                        @click = "selectDropDownItem('gate',item,'stock')"
+                        class="dropdown-list-item">
+                      <a  class="dropdown-list-item-value">{{item}}</a>
                     </li>
                   </ul>
                 </div>
@@ -456,20 +460,20 @@
           </div>
 
           <div class="row mt-3">
-            <div class="dropdown z-depth-1" @click = "showDropDown('classBuild','buildings')">
-              <div class="col-10">
-                <a>{{dropDowns.buildings.classBuild.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
+            <label for="buildClass">Класс здания</label>
+            <div class="dropdown" @click = "showDropDown('classBuild','buildings')" id="buildClass">
+              <div class="col-12 dropdown-title-wrapper">
+                <a class="dropdown-title">{{dropDowns.buildings.classBuild.title}}</a>
+                <i class="fa fa-angle-down"></i>
               </div>
               <transition enter-active-class="drop-in"
                           leave-active-class="drop-out">
                 <div class="dropdown-content z-depth-1" v-show="dropDowns.buildings.classBuild.active">
-                  <ul>
+                  <ul class="dropdown-list">
                     <li v-for="item in dropDowns.buildings.classBuild.values"
-                        @click = "selectDropDownItem('classBuild',item,'buildings')">
-                      <a>{{item}}</a>
+                        @click = "selectDropDownItem('classBuild',item,'buildings')"
+                        class="dropdown-list-item">
+                      <a class="dropdown-list-item-value">{{item}}</a>
                     </li>
                   </ul>
                 </div>
@@ -479,20 +483,20 @@
           </div>
 
           <div class="row mt-3">
-            <div class="dropdown z-depth-1" @click = "showDropDown('lineBuild','buildings')">
-              <div class="col-10">
-                <a>{{dropDowns.buildings.lineBuild.title}}</a>
-              </div>
-              <div class="col-2">
-                <i class="fa fa-sort-down fa-2x"></i>
+            <label for="buildLine">Линия домов</label>
+            <div class="dropdown" @click = "showDropDown('lineBuild','buildings')" id="buildLine">
+              <div class="col-12 dropdown-title-wrapper">
+                <a class="dropdown-title">{{dropDowns.buildings.lineBuild.title}}</a>
+                <i class="fa fa-angle-up"></i>
               </div>
               <transition enter-active-class="drop-in"
                           leave-active-class="drop-out">
                 <div class="dropdown-content z-depth-1" v-show="dropDowns.buildings.lineBuild.active">
-                  <ul>
+                  <ul class="dropdown-list">
                     <li v-for="item in dropDowns.buildings.lineBuild.values"
-                        @click = "selectDropDownItem('lineBuild',item,'buildings')">
-                      <a>{{item}}</a>
+                        @click = "selectDropDownItem('lineBuild',item,'buildings')"
+                        class="dropdown-list-item">
+                      <a class="dropdown-list-item-value">{{item}}</a>
                     </li>
                   </ul>
                 </div>
@@ -504,20 +508,20 @@
         </div>
 
         <div v-if="typeRealEstate == 'Участки'" class="row mt-3">
-          <div class="dropdown z-depth-1" @click = "showDropDown('typeLand')">
-            <div class="col-10">
-              <a>{{dropDowns.typeLand.title}}</a>
-            </div>
-            <div class="col-2">
-              <i class="fa fa-sort-down fa-2x"></i>
+          <label for="typeLand">Тип участка</label>
+          <div class="dropdown" @click = "showDropDown('typeLand')" id="typeLand">
+            <div class="col-12 dropdown-title-wrapper">
+              <a class="dropdown-title">{{dropDowns.typeLand.title}}</a>
+              <i class="fa fa-angle-down"></i>
             </div>
             <transition enter-active-class="drop-in"
                         leave-active-class="drop-out">
               <div class="dropdown-content z-depth-1" v-show="dropDowns.typeLand.active">
-                <ul>
+                <ul class="dropdown-list">
                   <li v-for="item in dropDowns.typeLand.values"
-                      @click = "selectDropDownItem('typeLand',item)">
-                    <a>{{item}}</a>
+                      @click = "selectDropDownItem('typeLand',item)"
+                      class="dropdown-list-item">
+                    <a class="dropdown-list-item-value">{{item}}</a>
                   </li>
                 </ul>
               </div>
@@ -526,7 +530,7 @@
           </div>
         </div>
 
-        <div v-if="typeRealEstate == 'Дома' || type == 'Участки'">
+        <div v-if="typeRealEstate == 'Дома' || typeRealEstate == 'Участки'">
           <div class="row mt-3 input-filter">
             <div class="row ml-0 input-title">
               <p>Площадь участка</p>
@@ -558,7 +562,7 @@
                      :key="index"
                      :id = "item"
                      v-model="outputParams.extraOptions">
-              <label :for="item">{{item}}</label>
+              <label :for="item" style="color: #212121;">{{item}}</label>
             </div>
           </div>
           <div class="container-fluid" v-if="typeRealEstate == 'Дома' || typeRealEstate == 'Участки'">
@@ -568,7 +572,7 @@
                      :value = "item"
                      :key="item"
                      v-model="outputParams.extraOptions">
-              <label :for="item">{{item}}</label>
+              <label :for="item" style="color: #212121;">{{item}}</label>
             </div>
           </div>
           <div class="container-fluid" v-if="typeRealEstate == 'Гаражи'">
@@ -578,7 +582,7 @@
                      :value = "item"
                      :key="item"
                      v-model="outputParams.extraOptions">
-              <label :for="item">{{item}}</label>
+              <label :for="item" style="color: #212121;">{{item}}</label>
             </div>
           </div>
           <div class="container-fluid" v-if="typeRealEstate == 'Офисы' ||  typeRealEstate == 'Торговля'">
@@ -588,7 +592,7 @@
                      :value = "item"
                      :key="item"
                      v-model="outputParams.extraOptions">
-              <label :for="item">{{item}}</label>
+              <label :for="item" style="color: #212121;">{{item}}</label>
             </div>
           </div>
           <div class="container-fluid" v-if="typeRealEstate == 'Склады'">
@@ -598,7 +602,7 @@
                      :value = "item"
                      :key="item"
                      v-model="outputParams.extraOptions">
-              <label :for="item">{{item}}</label>
+              <label :for="item" style="color: #212121;">{{item}}</label>
             </div>
           </div>
           <div class="container-fluid" v-if="typeRealEstate == 'Здания'">
@@ -608,7 +612,7 @@
                      :value = "item"
                      :key="item"
                      v-model="outputParams.extraOptions">
-              <label :for="item">{{item}}</label>
+              <label :for="item" style="color: #212121;">{{item}}</label>
             </div>
           </div>
         </div>
@@ -649,94 +653,94 @@
           },
           dropDowns:{
             typeBuild: {
-              title: 'Тип недвижимости',
+              title: 'Квартиры',
               active: false,
               values: ['Квартиры','Комнаты','Дома','Участки','Гаражи','Офисы','Торговля','Склады','Здания','Помещения']
             },
             city: {
-              title: 'Город',
+              title: 'Волгоград',
               active: false,
               values: ['Москва','Волгоград', 'Пенза']
             },
             layout: {
-              title:'Планировка',
+              title:'Выбрать...',
               active: false,
               values : ['Открытая', 'Кабинетная']
             },
             typeAdvert:{
-              title:'Тип объявления',
+              title:'Вторичка',
               active: false,
               values: ['Новостройка', 'Вторичка']
             },
             wallMaterial:{
-              title:'Материал стен',
+              title:'Выбрать...',
               active:false,
               values: ['Кирпичный','Деревянный','Панельный','Блочный','Монолитный','Кирпично-монолитный','Железобетон']
             },
             trade:{
               typePremises: {
-                title:'Тип помещения',
+                title:'Выбрать...',
                 active: false,
                 values: ['Street retail', 'В торговом комплексе']
               },
               specialization:{
-                title:'Специализация',
+                title:'Выбрать...',
                 active: false,
                 values: ['Кафе','Кофейня','Минимаркет', 'Офис продаж']
               },
               entrance:{
-                title:'Вход',
+                title:'Выбрать...',
                 active: false,
                 values: ['Общий с улицы', 'Общий со двора','Отдельный с улицы','Отдельный со двора']
               }
             },
             garage:{
               typeGarage:{
-                title:'Тип гаража',
+                title:'Выбрать...',
                 active: false,
                 values: ['Гараж', 'Машиноместо','Бокс']
               },
               typeConstruct:{
-                title:'Тип конструкции',
+                title:'Выбрать...',
                 active: false,
                 values: ['Встроенный', 'Капитальный']
               },
               status:{
-                title:'Статус',
+                title:'Выбрать...',
                 active: false,
                 values: ['Собственность', 'Кооператив','По договоренности']
               },
               heating:{
-                title:'Отопление',
+                title:'Выбрать...',
                 active:false,
                 values: ['Газовое', 'Угольное']
               }
             },
             stock:{
               crane: {
-                title:'Кран',
+                title:'Выбрать...',
                 active: false,
                 values: ['Мостовой кран','Кран балка', 'ЖД кран','Козловой кран']
               },
               gate: {
-                title:'Ворота',
+                title:'Выбрать...',
                 active: false,
                 values: ['На пандусе', 'Докового типа', 'На нулевой отметке']
               }
             },
             typeLand:{
-              title:'Тип участка',
+              title:'Выбрать...',
               active: false,
               values: ['Фермерское хозяйство', 'Садоводство', 'Застройка']
             },
             buildings:{
               classBuild:{
-                title:'Класс здания',
+                title:'Выбрать...',
                 active: false,
                 values: ['A','A+','B','B+','C+','D']
               },
               lineBuild:{
-                title:'Линия домов',
+                title:'Выбрать...',
                 active:false,
                 values: ['Первая','Вторая']
               }
@@ -879,9 +883,6 @@
     margin-right: auto;
     margin-left: auto;
   }
-p{
-  font-weight: bold;
-}
 input[placeholder="Макс"]{
   max-width: 153px;
 }
@@ -894,7 +895,10 @@ input[placeholder="Макс"]{
 .routeLink:hover{
   color: #6200ea;
 }
-label{margin-bottom: 0;}
+label {
+  margin-bottom: 0;
+  color: darken($accent-color, 25%);
+}
 
 
 /* Input styles*/
@@ -904,11 +908,11 @@ label{margin-bottom: 0;}
 
   .input-title{
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    @include  align-items(center);
+    @include  justify-content(flex-start);
     width: inherit;
 
-    p {margin-bottom : 0;}
+    p {margin-bottom : 0; color: darken($accent-color, 25%)}
   }
   .md-form{
     margin-bottom: 0;
@@ -929,60 +933,51 @@ label{margin-bottom: 0;}
   position: relative;
   width: 100%;
   height: 45px;
-  background-color: $primary-color;
+  background-color: transparent;
+  border-bottom: 2px solid $primary-color;
   cursor: pointer;
 
-  a {
-    padding-left: .5rem;
-    color: $primary-color-text;
-    font-size: large;
-  }
-  a:hover{color:$primary-color-text};
-  .col-2 {
-    height: inherit;
+  .dropdown-title-wrapper {
+    padding-left: 0;
+    padding-right: 0;
     display: flex;
-    @include align-items(center);
-    @include justify-content(center);
-    padding: 0;
-    border-left: 2px solid $primary-color-text;
-    .fa {
-      color: $primary-color-text;
-      padding-bottom: 10%;
-    }
-  }
+    align-items: center;
+    justify-content: space-between;
 
+    .dropdown-title{font-size: large;}
+  }
 
   .dropdown-content {
     position: absolute;
     top: 0;
     left: 0;
-    margin-top: 3.1rem;
-    background-color: $primary-color;
+    margin-top: 2.8rem;
+    background-color: $primary-color-text;
     width: inherit;
     z-index: 2;
-    max-height: 150px;
+    max-height: 200px;
     overflow-y: scroll;
     transition: .2s;
 
 
-    ul{
+    .dropdown-list {
       list-style-type:none;
-      line-height: 1.5;
       padding-left: .5rem;
+      line-height: 3rem;
       padding-right: .5rem;
       margin-bottom: .5rem;
       margin-top: .5rem;
 
-      li {
+      .dropdown-list-item {
         display:flex;
         @include align-items(center);
         @include justify-content(flex-start);
+        &:hover {background-color: #f5f5f5;}
 
-        a {color: $primary-color-text;}
-      }
-      li:hover{
-        background-color: $primary-color-text;
-        a {color: $primary-color}
+        .dropdown-list-item-value {
+          padding-left: 5px;
+          font-size: large;
+        }
       }
     }
   }
