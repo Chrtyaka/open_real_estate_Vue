@@ -1,6 +1,6 @@
 # real-estate
 
-> Дипломный проект
+> Frontend for Open Real Estate urbanbasis.com
 
 ## Build Setup
 
