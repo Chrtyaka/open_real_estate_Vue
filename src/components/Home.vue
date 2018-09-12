@@ -313,6 +313,7 @@
 </template>
 
 <script>
+  import clamp from "clamp-js/clamp"
   import { LMap, LTileLayer, LCircle, LMarker} from 'vue2-leaflet';
   import Footer from "../components/Footer"
   export default {
@@ -427,7 +428,7 @@
         setTimeout(function() { window.dispatchEvent(new Event('resize')) }, 250);
         this.$refs.map.mapObject.scrollWheelZoom.disable();
         $(".text-article").each(function () {
-          $clamp(this, {clamp : 3})
+          clamp(this, {clamp : 3})
         })
       }
     };
