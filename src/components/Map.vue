@@ -94,7 +94,7 @@
       },
       showSidebar(){
         if (this.mapContaierStyle.width === "100%"){
-          this.mapContaierStyle.width = "70%";
+          this.mapContaierStyle.width = "calc(100% - 350px)";
           this.sideBar = true;
           this.bottomSidebar = false;
           this.btnBtmSidebar = true;
@@ -109,7 +109,7 @@
         if(this.bottomSidebar === false){
           this.btnBtmSidebar = false;
           this.bottomSidebar = true;
-          if (this.mapContaierStyle.width === "70%"){
+          if (this.mapContaierStyle.width === "calc(100% - 350px;)"){
             this.mapContaierStyle.width = "100%";
             this.sideBar = false;
             this.bottomSideBarStyle.width = "100%";
@@ -248,7 +248,7 @@
     right:0;
     margin-top: 50px;
     z-index: 1;
-    width: 30%;
+    width: 350px;
     height: calc(100vh - 50px);
     background-color: $primary-color-text;
     overflow-y: scroll;
