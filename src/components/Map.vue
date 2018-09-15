@@ -1,10 +1,11 @@
 <template>
-<div>
-    <div class="container-fluid map-container" v-bind:style = "mapContaierStyle">
+  <div>
+    <div class="container-fluid map-container" v-bind:style = "mapContainerStyle">
       <l-map ref="map" v-bind:style = "mapStyle" :zoom="zoom" :center="center" :options = "mapOptions">
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-        <div v-for="item in c">
-          <l-circle :lat-lng = "item" :radius = "100"></l-circle>
+        <div v-for="item in list">
+          <l-marker :lat-lng = "item.coord" :icon = "icons.flatIcon" @click = "showInfo(item)">
+          </l-marker>
         </div>
       </l-map>
       <div class="left-middle-block">
@@ -19,24 +20,51 @@
     <transition
     enter-active-class="animated slideInRight"
     leave-active-class="animated slideOutRight">
-      <div class="sidebar-wrapper" v-show="sideBar">
+      <div class="filters-sidebar-wrapper" v-show="sideBar">
         <appFilters type="Квартиры"></appFilters>
       </div>
     </transition>
-    <div class="bottom-sidebar-wrapper" v-bind:style = "bottomSideBarStyle">
-      <transition-group
-        enter-active-class = "animated slideInUp"
-        leave-active-class = "animated fadeOut"
-        mode = "out-in">
-        <div class="btn-bottom-sidebar" @click = "showBottomSidebar()" v-show = "btnBtmSidebar" key="btn">
-          <i class="fa fa-angle-up fa-3x"></i>
+    <div class=" container info-object z-depth-2" v-bind:style="{ height : infoSize}">
+      <div class="row info-object__header">
+        <span class="info-object__header__address">Ваш объект</span>
+        <div class="info-object__header__buttons">
+          <i class="fa fa-window-minimize" @click = "infoObjectContent = !infoObjectContent"></i>
+          <i class="fa fa-close"></i>
         </div>
-        <div class="bottom-sidebar" v-show = "bottomSidebar" key = "sideBar">
-          <a @click = "showBottomSidebar()">Закрыть</a>
+      </div>
+      <transition enter-active-class="animated fadeIn"
+                  leave-active-class="animated fadeOut">
+        <div class="info-object__content" v-show="infoObjectContent">
+          <div class="row info-object__content__image">
+            <img :src="infoData.imgUrl"
+                 onerror="this.src='https://placeholdit.imgix.net/~text?txtsize=38&txt=400%C3%97400&w=400&h=400'"
+                 align="center">
+          </div>
+          <div class="row info-object__content__price">
+            <h3>{{infoData.price}} &#8381</h3>
+          </div>
+          <div class="row info-object__content__address">
+            <h4>{{infoData.address}}</h4>
+          </div>
+          <div class="row info-object__content__parameters">
+            <p style="padding-left: 5%;">Комнат {{infoData.countRooms}}</p>
+            <p>{{infoData.totalArea}} м <sup>2</sup></p>
+            <p style="padding-right: 5%;">Этаж {{infoData.floor}}</p>
+          </div>
+          <div class="row info-object__content__links">
+            <div class="col-8">
+              <a href="" class="more-info">Подробнее</a>
+            </div>
+            <div class="col-4">
+              <a href="" class="add-favorite" title="Добавить в избранное"><i class="fa fa-heart fa-2x"></i></a>
+              <a href="" class="add-compare" title="Добавить к сравнению"><i class="fa fa-plus fa-2x"></i></a>
+            </div>
+          </div>
         </div>
-      </transition-group>
+      </transition>
+
     </div>
-</div>
+  </div>
 </template>
 
 <script>
@@ -49,7 +77,7 @@
       LTileLayer,
       LMarker,
       LCircle,
-      appFilters: Filters
+      appFilters: Filters,
     },
     data () {
       return {
@@ -60,25 +88,34 @@
         center: L.latLng(55.7820534, 37.5680638),
         url:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
         attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        icons: {
+          flatIcon : L.icon({
+            iconUrl: 'http://127.0.0.1:5000/static/images/icons/marker.png',
+            iconSize:     [30, 30],
+          })
+        },
         sideBar: false,
         mapStyle: {
-          "height" : "calc(100vh - 50px)",
-          "position": "absolute",
-          "z-index": "0"
+          height : "calc(100vh - 50px)",
+          position: "absolute",
+          zIndex: "0"
         },
-
-        mapContaierStyle:{
-          "width" : "100%",
-          "height": "calc(100vh - 50px)"
+        mapContainerStyle:{
+          width : "100%",
+          height: "calc(100vh - 50px)"
         },
-
         sidebarStyle: {
-          "width" : "0"
+          width : "0"
         },
-        bottomSidebar: false,
-        btnBtmSidebar: true,
-        bottomSideBarStyle:{
-          "width" : "100%"
+        infoObjectContent: true,
+        infoObjectSize : '70%',
+        infoData: {
+          imgUrl : '',
+          price : '',
+          address: '',
+          countRooms : '',
+          floor : '',
+          totalArea: ''
         }
       }
     },
@@ -93,42 +130,34 @@
         this.$refs.map.mapObject.locate( {setView: true})
       },
       showSidebar(){
-        if (this.mapContaierStyle.width === "100%"){
-          this.mapContaierStyle.width = "calc(100% - 350px)";
+        if (this.mapContainerStyle.width === "100%"){
+          this.mapContainerStyle.width = "calc(100% - 350px)";
           this.sideBar = true;
-          this.bottomSidebar = false;
-          this.btnBtmSidebar = true;
-          this.bottomSideBarStyle.width = "70%";
         }else{
-          this.mapContaierStyle.width = "100%";
+          this.mapContainerStyle.width = "100%";
           this.sideBar = false;
-          this.bottomSideBarStyle.width = "100%";
         }
       },
-      showBottomSidebar(){
-        if(this.bottomSidebar === false){
-          this.btnBtmSidebar = false;
-          this.bottomSidebar = true;
-          if (this.mapContaierStyle.width === "calc(100% - 350px;)"){
-            this.mapContaierStyle.width = "100%";
-            this.sideBar = false;
-            this.bottomSideBarStyle.width = "100%";
-          }
-        }else{
-          this.btnBtmSidebar = true;
-          this.bottomSidebar = false;
-        }
-
+      showInfo(data) {
+        this.infoData.imgUrl = data.urlThumbImage;
+        this.infoData.price = data.price;
+        this.infoData.address = data.address;
+        this.infoData.countRooms = data.countRooms;
+        this.infoData.floor = data.floor;
+        this.infoData.totalArea = data.totalArea;
+      },
+    },
+    computed : {
+      infoSize(){
+        return this.infoObjectContent ? '70%' : '45px'
       }
     },
     created(){
       this.list = this.$store.state.listObjects;
       for (let el in this.list){
         let cord = [this.list[el].lat, this.list[el].lng];
-        this.c[el] = cord
+        this.list[el]['coord'] = cord
       }
-    },
-    computed:{
     },
     mounted() {
       this.$store.commit('changeComponent', 'Map');
@@ -187,14 +216,13 @@
   $secondary-text-color: #757575;
   $divider-color:        #BDBDBD;
 
-
   .map-container {
 
     padding: 0;
     margin-top: 50px;
     position: absolute;
     transition: 1s;
-
+    overflow : hidden;
 
     .left-middle-block {
       position: absolute;
@@ -242,7 +270,7 @@
     }
 
   }
-  .sidebar-wrapper {
+  .filters-sidebar-wrapper {
     position: absolute;
     top: 0;
     right:0;
@@ -268,42 +296,143 @@
     width: 0;
     background: transparent; /* make scrollbar transparent */
   }
-  .bottom-sidebar-wrapper{
-    position: fixed;
-    display: flex;
-    @include align-items(flex-end);
-    @include justify-content(center);
+  .info-object {
+    width: 25%;
+    height: 70%;
+    position: absolute;
+    z-index: 2;
     bottom: 0;
-    left: 0;
-    width: 100%;
-    height:35%;
+    padding: 0;
+    overflow: hidden;
+    transform: translateX(30%);
+    background-color: transparent;
+    @include transition(.2s);
 
-    .btn-bottom-sidebar {
-      height: 30px;
-      width: 100px;
-      background-color: $primary-color;
-      @include border-radius(20px,20px,0,0);
+    &__header {
       display: flex;
       @include align-items(center);
-      @include justify-content(center);
+      height: 45px;
+      margin: 0;
+      background-color: $primary-color;
 
-      .fa {
+      &__address {
+        padding-left: 15px;
         color: $primary-color-text;
+        font-size: large;
+      }
+
+      &__buttons {
+        margin-left: auto;
+
+        i {
+          cursor: pointer;
+          padding-right: 15px;
+          font-size: 1.2em;
+          color: $primary-color-text;
+        }
       }
     }
 
-    .bottom-sidebar {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 100%;
-      z-index: 1;
+    &__content {
       width: 100%;
-      background-color: $primary-color-text;
+      height: 90%;
+      background-color: #fff;
+
+      &__image {
+        margin: 0;
+        width: 100%;
+        height: 45%;
+
+        img{
+          width: 100%;
+        }
+      }
+
+      &__price {
+        width: 100%;
+        height: 10%;
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 1.5rem;
+        display: flex;
+        @include align-items(center);
+
+        h3 {
+          margin-bottom: 0;
+          padding-left: 5%;
+          font-weight: bold;
+        }
+      }
+      &__address {
+        height: 10%;
+        width: 100%;
+        margin: 0;
+        display: flex;
+        @include align-items(center);
+
+        h4 {
+          padding-left: 5%;
+          margin-bottom: 0;
+        }
+      }
+      &__parameters {
+        display: flex;
+        @include align-items(center);
+        @include justify-content(space-between);
+        margin: 0;
+        width: 100%;
+        height: 10%;
+
+        p {
+          font-size: large;
+          margin-bottom: 0;
+        }
+      }
+      &__links {
+        width: 100%;
+        height: 10%;
+        margin-top: 1rem;
+        margin-left: 0;
+        margin-right: 0;
+
+        .col-8 {
+          display: flex;
+          @include justify-content(flex-start);
+          @include align-items(center);
+          padding-left: 5%;
+          padding-right: 0;
+
+          .more-info{
+            color: $primary-color;
+            font-size: x-large;
+            padding: 5px 20px;
+            background-color: $primary-color-light;
+            border-radius: 20px;
+
+            &:hover {
+              color: $primary-color-text;
+              background-color: $primary-color;
+            }
+          }
+        }
+        .col-4 {
+          display: flex;
+          @include align-items(center);
+          @include justify-content(center);
+          padding-right: 5%;
+
+          .add-compare {
+            padding-left: 1.5rem;
+          }
+          .add-favorite, .add-compare {
+            color: $primary-color;
+
+            &:hover {
+              color: $primary-color-light;
+            }
+          }
+        }
+      }
     }
   }
-
-
-
-
 </style>
