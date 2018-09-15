@@ -17,6 +17,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
 
+
 Vue.use(VueTabs);
 Vue.use(VueResource);
 Vue.use(VueRouter);
