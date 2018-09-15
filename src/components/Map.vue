@@ -4,7 +4,7 @@
       <l-map ref="map" v-bind:style = "mapStyle" :zoom="zoom" :center="center" :options = "mapOptions">
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
         <div v-for="item in list">
-          <l-marker :lat-lng = "item.coord" :icon = "icons.flatIcon" @click = "showInfo(item)">
+          <l-marker :lat-lng = "item.coord" :icon = "customIcons[item.icon]" @click = "showInfo(item)" :key = "item.id">
           </l-marker>
         </div>
       </l-map>
@@ -29,7 +29,6 @@
         <span class="info-object__header__address">Ваш объект</span>
         <div class="info-object__header__buttons">
           <i class="fa fa-window-minimize" @click = "infoObjectContent = !infoObjectContent"></i>
-          <i class="fa fa-close"></i>
         </div>
       </div>
       <transition enter-active-class="animated fadeIn"
@@ -88,10 +87,14 @@
         center: L.latLng(55.7820534, 37.5680638),
         url:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
         attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-        icons: {
-          flatIcon : L.icon({
+        customIcons: {
+          defaultIcon : L.icon({
             iconUrl: 'http://127.0.0.1:5000/static/images/icons/marker.png',
             iconSize:     [30, 30],
+          }),
+          activeIcon : L.icon({
+            iconUrl : 'http://127.0.0.1:5000/static/images/icons/marker-active.png',
+            iconSize : [40,40]
           })
         },
         sideBar: false,
@@ -107,7 +110,7 @@
         sidebarStyle: {
           width : "0"
         },
-        infoObjectContent: true,
+        infoObjectContent: false,
         infoObjectSize : '70%',
         infoData: {
           imgUrl : '',
@@ -139,6 +142,10 @@
         }
       },
       showInfo(data) {
+        for (let el in this.list){
+           this.list[el].icon = data.id === this.list[el].id ? 'activeIcon' : 'defaultIcon';
+        }
+        this.infoObjectContent = true;
         this.infoData.imgUrl = data.urlThumbImage;
         this.infoData.price = data.price;
         this.infoData.address = data.address;
@@ -157,6 +164,8 @@
       for (let el in this.list){
         let cord = [this.list[el].lat, this.list[el].lng];
         this.list[el]['coord'] = cord
+
+        this.list[el]['icon'] = 'defaultIcon'
       }
     },
     mounted() {
@@ -305,7 +314,7 @@
     padding: 0;
     overflow: hidden;
     transform: translateX(30%);
-    background-color: transparent;
+    background-color: $primary-color-text;
     @include transition(.2s);
 
     &__header {
