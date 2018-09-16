@@ -32,7 +32,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(?:png|jpg|svg)$/,
+        test: /\.(?:png|jpg|svg|jpeg)$/,
         loader: 'file-loader',
         query: {
           // Inline images smaller than 10kb as data URIs

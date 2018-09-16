@@ -5,7 +5,6 @@
             <div class="col-md-8">
               <div v-if="showSmile" class="smile">
                 <h5 class="font-weight-bold">Извините, но данных по данному типу недвижимости пока <br>нет:(</h5>
-                <img src="../images/smile.png" alt="" id = "smile">
               </div>
               <div v-for="item in objects" v-if="!showSmile">
                 <appCard :object = "item"></appCard>
@@ -55,9 +54,5 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  #smile{
-    width: 100%;
-    max-width: 500px;
   }
 </style>

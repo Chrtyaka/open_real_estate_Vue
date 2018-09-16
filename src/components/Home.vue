@@ -23,11 +23,15 @@
      </div>
 
      <div class="container-fluid card-categories-wrapper mt-4">
-        <div class="row mt-4">
+        <div class="row mt-4" data-aos = "fade-in">
          <h1>Любая недвижимость на ваш вкус!</h1>
        </div>
+
         <div class="row pt-2 pl-2">
-            <div class="col-lg-4 col-md-4 card-categories pl-0">
+            <div class="col-lg-4 col-md-4 card-categories pl-0"
+                 data-aos="flip-left"
+                 data-aos-duration="1000"
+                 data-aous-delay = "100">
               <div class="bg-card"
                    style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-apartment.jpeg')"
                    v-bind:style="bgCardStyle">
@@ -47,7 +51,11 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 col-md-4 card-categories">
+
+            <div class="col-lg-4 col-md-4 card-categories"
+                 data-aos="flip-up"
+                 data-aos-duration="1000"
+                 data-aous-delay = "100">
               <div class="bg-card" style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-room.jpeg')"
               v-bind:style="bgCardStyle">
                 <div class="info-card" @mouseover = "linksCardRooms = true" @mouseleave="linksCardRooms = false">
@@ -62,7 +70,11 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 col-md-4 card-categories">
+
+            <div class="col-lg-4 col-md-4 card-categories"
+                 data-aos="flip-right"
+                 data-aos-duration="1000"
+                 data-aous-delay = "100">
               <div class="bg-card" style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-garden.jpeg')"
               v-bind:style="bgCardStyle">
                 <div class="info-card" @mouseover = "linksCardGarden = true" @mouseleave="linksCardGarden = false">
@@ -77,9 +89,14 @@
                 </div>
               </div>
             </div>
+
         </div>
+
         <div class="row pt-2 pl-2">
-           <div class="col-lg-4 col-md-4 card-categories pl-0">
+           <div class="col-lg-4 col-md-4 card-categories pl-0"
+                data-aos="flip-left"
+                data-aos-duration="1000"
+                data-aous-delay = "400">
              <div class="bg-card"
                   style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-house.jpeg')"
                   v-bind:style="bgCardStyle">
@@ -96,7 +113,10 @@
                </div>
              </div>
            </div>
-           <div class="col-lg-4 col-md-4 card-categories">
+           <div class="col-lg-4 col-md-4 card-categories"
+                data-aos="flip-up"
+                data-aos-duration="1000"
+                data-aous-delay = "400">
              <div class="bg-card" style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-garage.jpg')"
                   v-bind:style="bgCardStyle">
                <div class="info-card" @mouseover = "linksCardGarage = true" @mouseleave="linksCardGarage = false">
@@ -112,7 +132,10 @@
                </div>
              </div>
            </div>
-           <div class="col-lg-4 col-md-4 card-categories">
+           <div class="col-lg-4 col-md-4 card-categories"
+                data-aos="flip-right"
+                data-aos-duration="1000"
+                data-aous-delay = "400">
              <div class="bg-card" style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-office.jpeg')"
                   v-bind:style="bgCardStyle">
                <div class="info-card" @mouseover = "linksCardOffice = true" @mouseleave="linksCardOffice = false">
@@ -127,8 +150,12 @@
              </div>
            </div>
         </div>
+
         <div class="row pt-2 pl-2">
-           <div class="col-lg-4 col-md-4 card-categories pl-0">
+           <div class="col-lg-4 col-md-4 card-categories pl-0"
+                data-aos="flip-left"
+                data-aos-duration="1000"
+                data-aous-delay = "800">
              <div class="bg-card"
                   style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-stock.jpeg')"
                   v-bind:style="bgCardStyle">
@@ -143,7 +170,10 @@
                </div>
              </div>
            </div>
-           <div class="col-lg-4 col-md-4 card-categories">
+           <div class="col-lg-4 col-md-4 card-categories"
+                data-aos="flip-up"
+                data-aos-duration="1000"
+                data-aous-delay = "800">
              <div class="bg-card" style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-building.jpeg')"
                   v-bind:style="bgCardStyle">
                <div class="info-card" @mouseover = "linksCardBuild = true" @mouseleave="linksCardBuild = false">
@@ -159,7 +189,10 @@
                </div>
              </div>
            </div>
-           <div class="col-lg-4 col-md-4 card-categories">
+           <div class="col-lg-4 col-md-4 card-categories"
+                data-aos="flip-right"
+                data-aos-duration="1000"
+                data-aous-delay = "800">
              <div class="bg-card" style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-trade-area.jpeg')"
                   v-bind:style="bgCardStyle">
                <div class="info-card" @mouseover = "linksCardPremises = true" @mouseleave="linksCardPremises = false">
@@ -176,55 +209,95 @@
              </div>
            </div>
         </div>
+
      </div>
 
      <div class="container-fluid main-links-wrapper mt-5">
-        <div class="row pt-5">
+        <div class="row pt-5" data-aos="fade-in"
+                              data-aos-delay = "100">
           <h1>Дополнительные возможности для вас</h1>
         </div>
         <div class="main-links">
           <div class="row">
             <div class="col-lg-3 col-md-3">
-            <div class="row icon-ability">
-              <img src="http://127.0.0.1:5000/static/images/icons/round-add-button.png">
-            </div>
-            <div class="row title-ability">
-              <a class="pt-4">Подать объявление</a>
-            </div>
-            <div class="row body-ability">
-              <p class="pt-2">
-                 Разместите информацию о продаже или аренде объектов недвижимости на нашем сайте
-              </p>
+              <div class="row icon-ability" data-aos = "zoom-in"
+                                            data-aos-duration = "1000"
+                                            data-aous-delay = "100">
+                <img src="http://127.0.0.1:5000/static/images/icons/round-add-button.png">
               </div>
+              <div class="row title-ability" data-aos="fade-right"
+                                             data-aos-easing="linear"
+                                             data-aos-duration = "500"
+                                             data-aos-delay = "200">
+                <a class="pt-4">Подать объявление</a>
+              </div>
+              <div class="row body-ability"   data-aos="fade-up"
+                                              data-aos-easing="linear"
+                                              data-aos-duration = "500"
+                                              data-aos-delay = "200">
+                <p class="pt-2">
+                   Разместите информацию о продаже или аренде объектов недвижимости на нашем сайте
+                </p>
+                </div>
              </div>
-             <div class="col-lg-3 col-md-3">
-              <div class="row icon-ability">
+            <div class="col-lg-3 col-md-3"  >
+              <div class="row icon-ability"  data-aos = "zoom-in"
+                                             data-aos-duration = "1000"
+                                             data-aous-delay = "200">
                 <img src="http://127.0.0.1:5000/static/images/icons/text-document.png">
               </div>
-              <div class="row title-ability"><a class="pt-3 pl-3">Документы</a></div>
-              <div class="row body-ability">
+              <div class="row title-ability" data-aos="fade-right"
+                                             data-aos-easing="linear"
+                                             data-aos-duration = "500"
+                                             data-aos-delay = "200">
+                <a class="pt-3 pl-3">Документы</a>
+              </div>
+              <div class="row body-ability"  data-aos="fade-up"
+                                             data-aos-easing="linear"
+                                             data-aos-duration = "500"
+                                             data-aos-delay = "200">
                 <p class="pt-2">
                    Получите бланки необходимых документов для сделок с недвижимостью в любое удобное для вас время и абсолютно бесплатно
                  </p>
               </div>
              </div>
-             <div class="col-lg-3 col-md-3">
-              <div class="row icon-ability">
+            <div class="col-lg-3 col-md-3">
+              <div class="row icon-ability"  data-aos = "zoom-in"
+                                             data-aos-duration = "1000"
+                                             data-aous-delay = "200">
                 <img src="http://127.0.0.1:5000/static/images/icons/database.png">
               </div>
-              <div class="row title-ability"><a class="pt-3 pl-3">База данных и API</a></div>
-              <div class="row body-ability">
+              <div class="row title-ability" data-aos="fade-right"
+                                             data-aos-easing="linear"
+                                             data-aos-duration = "500"
+                                             data-aos-delay = "200">
+                <a class="pt-3 pl-3">База данных и API</a>
+              </div>
+              <div class="row body-ability"  data-aos="fade-up"
+                                             data-aos-easing="linear"
+                                             data-aos-duration = "500"
+                                             data-aos-delay = "200">
                 <p class="pt-2">
                    Воспользуйтесь данными базы объектов недвижимости по своему усмотрению – скачивайте файлом в удобном формате или настройте доступ с помощью нашего API
                  </p>
               </div>
              </div>
-             <div class="col-lg-3 col-md-3">
-              <div class="row icon-ability">
+            <div class="col-lg-3 col-md-3">
+              <div class="row icon-ability" data-aos = "zoom-in"
+                                            data-aos-duration = "1000"
+                                            data-aous-delay = "300">
                 <img src="http://127.0.0.1:5000/static/images/icons/calculator.png">
               </div>
-              <div class="row title-ability"><a class="pt-3 pl-3">Калькуляторы</a></div>
-              <div class="row body-ability">
+              <div class="row title-ability" data-aos="fade-right"
+                                             data-aos-easing="linear"
+                                             data-aos-duration = "500"
+                                             data-aos-delay = "200">
+                <a class="pt-3 pl-3">Калькуляторы</a>
+              </div>
+              <div class="row body-ability"  data-aos="fade-up"
+                                             data-aos-easing="linear"
+                                             data-aos-duration = "500"
+                                             data-aos-delay = "200">
                 <p class="pt-2">
                    Оцените стоимость недвижимости с учётом всех особенностей вашего объекта
                  </p>
@@ -235,10 +308,16 @@
      </div>
 
      <div class="container-fluid main-map-wrapper">
-        <div class="row title-map">
+        <div class="row title-map" data-aos="fade-in"
+                                   data-aos-easing="linear"
+                                   data-aos-duration = "1000"
+                                   data-aos-delay = "200">
           <h1>Карта недвижимости - теперь все объекты как на ладони</h1>
         </div>
-        <div class="row map-container">
+        <div class="row map-container" data-aos="fade-in"
+                                       data-aos-easing="linear"
+                                       data-aos-duration = "1000"
+                                       data-aos-delay = "200">
           <l-map ref="map" style="height:inherit; width: inherit; position: absolute; z-index: 0;" :zoom="zoom" :center="center" :options = "mapOptions">
             <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
           </l-map>
@@ -249,11 +328,19 @@
     </div>
 
      <div class="container-fluid news-wrapper">
-       <div class="row title-info">
+       <div class="row title-info" data-aos="fade-in"
+                                   data-aos-easing="linear"
+                                   data-aos-duration = "200"
+                                   data-aos-delay = "200">
          <h1>Полезная информация</h1>
        </div>
        <div class="row">
-           <div class="col-lg-4 col-md-4" v-for = "item in infoItems">
+           <div class="col-lg-4 col-md-4" v-for = "item in infoItems"
+                data-aos="fade-in"
+                data-aos-easing="linear"
+                data-aos-duration = "1000"
+                data-aos-delay = "200">
+
              <div class="row news-category-title">
                <img :src="item.imgUrl">
                <h4 style="color:#212121;">{{item.title}}</h4>
@@ -283,7 +370,10 @@
          <div class="row pt-3">
            <h2 style="margin-left: auto; margin-right: auto; color:#fff; font-weight: bold;">Открытая недвижимость - это:</h2>
          </div>
-         <div class="row" style="display: flex; -ms-align-items: center;align-items: center; justify-content: center;">
+         <div class="row" style="display: flex;align-items: center; justify-content: center;"
+              data-aos="fade-right"
+              data-aos-easing="linear"
+              data-aos-duration = "500">
            <ul>
              <li>Возможность найти выгодное предложение не выходя из дома и абсолютно бесплатно</li>
              <li>Широкий диапазон предлагаемых сделок по сбыту недвижимости</li>
@@ -314,6 +404,7 @@
 
 <script>
   import clamp from "clamp-js/clamp"
+  import AOS from 'aos'
   import { LMap, LTileLayer, LCircle, LMarker} from 'vue2-leaflet';
   import Footer from "../components/Footer"
   export default {
@@ -353,7 +444,7 @@
               moreInfoText: "Еще о регионах...",
               title:"В регионах",
               columnStyle:{},
-              imgUrl : 'http://127.0.0.1:5000/static/images/icons/earth.png',
+              imgUrl : '../assets/icons/earth.png',
               items:[
                 {
                   title : 'Шикарная новость',
@@ -374,7 +465,7 @@
               moreInfoText: "Больше советов...",
               title: "Советы специалистов",
               columnStyle:{},
-              imgUrl : 'http://127.0.0.1:5000/static/images/icons/edit.png',
+              imgUrl : '../assets/icons/edit.png',
               items:[
                 {
                   title : 'Шикарная новость',
@@ -397,7 +488,7 @@
               columnStyle:{
                 "padding-right": "15px"
               },
-              imgUrl : 'http://127.0.0.1:5000/static/images/icons/instruction.png',
+              imgUrl : '../assets/icons/instruction.png',
               items:[
                 {
                   title : 'Шикарная новость',
@@ -424,6 +515,7 @@
         },
       },
       mounted(){
+        AOS.init();
         this.$store.commit('changeComponent', 'Home');
         setTimeout(function() { window.dispatchEvent(new Event('resize')) }, 250);
         this.$refs.map.mapObject.scrollWheelZoom.disable();
@@ -436,7 +528,7 @@
 
 
 
-<style lang = "scss"scoped>
+<style lang = "scss" scoped>
 
  @mixin align-items($align){
     -webkit-align-items: $align;
@@ -472,7 +564,7 @@
       display: flex;
       @include align-items(center);
       flex-direction: column;
-      background: url("http://127.0.0.1:5000/static/images/background-preview.jpg") no-repeat center fixed;
+      background: url(../assets/background-preview.jpg) no-repeat center fixed;
       -webkit-background-size: cover;
       background-size: cover;
 
@@ -511,7 +603,7 @@
       display: flex;
       flex-direction: row;
       @include align-items(center);
-      box-shadow: 0px 1px 5px 2px rgba(0, 0, 0, .11);
+      box-shadow: 0 1px 5px 2px rgba(0, 0, 0, .11);
 
       .link-list{
         width: inherit;
@@ -716,7 +808,7 @@
           left: calc(50% - 100px);
           margin-bottom: 50px;
           cursor: pointer;
-          box-shadow: 0px 1px 5px 2px rgba(0, 0, 0, .11);
+          box-shadow: 0 1px 5px 2px rgba(0, 0, 0, .11);
           span {
             color: $primary-color-text;
             text-transform: uppercase;
@@ -831,7 +923,7 @@
     display: flex;
     @include align-items(center);
     @include justify-content(center);
-    background: url('http://127.0.0.1:5000/static/images/about-home-bg.jpeg') no-repeat;
+    background: url(../assets/about-home-bg.jpg) center no-repeat;
     background-size: cover;
     -webkit-background-size: cover;
     border-radius: 3px;
@@ -842,16 +934,20 @@
       position: relative;
       z-index:2;
     }
+    ul {
+      list-style-image: url(../assets/icons/checked.png);
+      list-style-position: outside;
+      line-height: 2;
 
-    list-style-image: url('http://127.0.0.1:5000/static/images/icons/checked.png');
-    list-style-position: outside;
-    line-height: 2;
-
-    li {
-      color: $primary-color-text;
-      font-weight: bold;
-      font-size: 15pt;
+      li {
+        color: $primary-color-text;
+        font-weight: bold;
+        font-size: 15pt;
+      }
     }
+
+
+
   }
   .about-wrapper::after{
     content: '';
