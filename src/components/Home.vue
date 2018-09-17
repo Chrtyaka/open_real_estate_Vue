@@ -26,190 +26,9 @@
         <div class="row mt-4" data-aos = "fade-in">
          <h1>Любая недвижимость на ваш вкус!</h1>
        </div>
-
-        <div class="row pt-2 pl-2">
-            <div class="col-lg-4 col-md-4 card-categories pl-0"
-                 data-aos="flip-left"
-                 data-aos-duration="1000"
-                 data-aous-delay = "100">
-              <div class="bg-card"
-                   style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-apartment.jpeg')"
-                   v-bind:style="bgCardStyle">
-                <div class="info-card" @mouseover = "linksCardApart = true" @mouseleave="linksCardApart = false">
-                  <div class="dark-bg-card" v-show="linksCardApart"></div>
-                  <div style="position: absolute; z-index: 1">
-                    <h1 v-show="linksCardApart === false">Квартиры</h1>
-                    <div class="links-card" style="line-height: 1.4" v-show="linksCardApart === true">
-                      <a href="">1-комнатные</a><br>
-                      <a href="">2-комнатные</a><br>
-                      <a href="">3-комнатные</a><br>
-                      <a href="">Свободная планировка</a><br>
-                      <a href="">Квартиры-студии</a><br>
-                      <a href="">Новостройки</a><br>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 card-categories"
-                 data-aos="flip-up"
-                 data-aos-duration="1000"
-                 data-aous-delay = "100">
-              <div class="bg-card" style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-room.jpeg')"
-              v-bind:style="bgCardStyle">
-                <div class="info-card" @mouseover = "linksCardRooms = true" @mouseleave="linksCardRooms = false">
-                  <div class="dark-bg-card" v-show="linksCardRooms"></div>
-                  <div style="position: absolute; z-index: 5">
-                    <h1 v-show="linksCardRooms === false">Комнаты</h1>
-                    <div class="links-card" v-show="linksCardRooms === true">
-                      <a href="">Комнаты в квартире</a><br>
-                      <a href="">Комнаты в общежитии</a><br>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 card-categories"
-                 data-aos="flip-right"
-                 data-aos-duration="1000"
-                 data-aous-delay = "100">
-              <div class="bg-card" style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-garden.jpeg')"
-              v-bind:style="bgCardStyle">
-                <div class="info-card" @mouseover = "linksCardGarden = true" @mouseleave="linksCardGarden = false">
-                  <div class="dark-bg-card" v-show="linksCardGarden"></div>
-                  <div style="position: absolute; z-index: 5">
-                    <h1 v-show="linksCardGarden === false">Участки</h1>
-                    <div class="links-card" v-show="linksCardGarden === true">
-                      <a href="">Коттеджный участок</a><br>
-                      <a href="">Свободная застройка</a><br>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+        <div v-for = "row in categoryCards">
+          <row-card :rowCards = "row"/>
         </div>
-
-        <div class="row pt-2 pl-2">
-           <div class="col-lg-4 col-md-4 card-categories pl-0"
-                data-aos="flip-left"
-                data-aos-duration="1000"
-                data-aous-delay = "400">
-             <div class="bg-card"
-                  style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-house.jpeg')"
-                  v-bind:style="bgCardStyle">
-               <div class="info-card" @mouseover = "linksCardHouse = true" @mouseleave="linksCardHouse = false">
-                 <div class="dark-bg-card" v-show="linksCardHouse"></div>
-                 <div style="position: absolute; z-index: 5">
-                   <h1 v-show="linksCardHouse === false">Дома</h1>
-                   <div class="links-card" v-show="linksCardHouse === true">
-                     <a href="">Дача</a><br>
-                     <a href="">Коттедж</a><br>
-                     <a href="">Таунхаус</a><br>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
-           <div class="col-lg-4 col-md-4 card-categories"
-                data-aos="flip-up"
-                data-aos-duration="1000"
-                data-aous-delay = "400">
-             <div class="bg-card" style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-garage.jpg')"
-                  v-bind:style="bgCardStyle">
-               <div class="info-card" @mouseover = "linksCardGarage = true" @mouseleave="linksCardGarage = false">
-                 <div class="dark-bg-card" v-show="linksCardGarage"></div>
-                 <div style="position: absolute; z-index: 5">
-                   <h1 v-show="linksCardGarage === false">Гаражи</h1>
-                   <div class="links-card" v-show="linksCardGarage === true">
-                     <a href="">Гараж</a><br>
-                     <a href="">Машиноместо</a><br>
-                     <a href="">Бокс</a><br>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
-           <div class="col-lg-4 col-md-4 card-categories"
-                data-aos="flip-right"
-                data-aos-duration="1000"
-                data-aous-delay = "400">
-             <div class="bg-card" style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-office.jpeg')"
-                  v-bind:style="bgCardStyle">
-               <div class="info-card" @mouseover = "linksCardOffice = true" @mouseleave="linksCardOffice = false">
-                 <div class="dark-bg-card" v-show="linksCardOffice"></div>
-                 <div style="position: absolute; z-index: 5">
-                   <h1 v-show="linksCardOffice === false">Офисы</h1>
-                   <div class="links-card" v-show="linksCardOffice === true">
-                     <a href="">Офис</a><br>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
-        </div>
-
-        <div class="row pt-2 pl-2">
-           <div class="col-lg-4 col-md-4 card-categories pl-0"
-                data-aos="flip-left"
-                data-aos-duration="1000"
-                data-aous-delay = "800">
-             <div class="bg-card"
-                  style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-stock.jpeg')"
-                  v-bind:style="bgCardStyle">
-               <div class="info-card" @mouseover = "linksCardStorage = true" @mouseleave="linksCardStorage = false">
-                 <div class="dark-bg-card" v-show="linksCardStorage"></div>
-                 <div style="position: absolute; z-index: 5">
-                   <h1 v-show="linksCardStorage === false">Склады</h1>
-                   <div class="links-card" v-show="linksCardStorage === true">
-                     <a href="">Склад</a><br>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
-           <div class="col-lg-4 col-md-4 card-categories"
-                data-aos="flip-up"
-                data-aos-duration="1000"
-                data-aous-delay = "800">
-             <div class="bg-card" style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-building.jpeg')"
-                  v-bind:style="bgCardStyle">
-               <div class="info-card" @mouseover = "linksCardBuild = true" @mouseleave="linksCardBuild = false">
-                 <div class="dark-bg-card" v-show="linksCardBuild"></div>
-                 <div style="position: absolute; z-index: 5">
-                   <h1 v-show="linksCardBuild === false">Здания</h1>
-                   <div class="links-card" v-show="linksCardBuild === true">
-                     <a href="">Здание</a><br>
-                     <a href="">Бизнес-центр</a><br>
-                     <a href="">Торговый-центр</a><br>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
-           <div class="col-lg-4 col-md-4 card-categories"
-                data-aos="flip-right"
-                data-aos-duration="1000"
-                data-aous-delay = "800">
-             <div class="bg-card" style="background: url('http://127.0.0.1:5000/static/images/overlays/homepage-trade-area.jpeg')"
-                  v-bind:style="bgCardStyle">
-               <div class="info-card" @mouseover = "linksCardPremises = true" @mouseleave="linksCardPremises = false">
-                 <div class="dark-bg-card" v-show="linksCardPremises"></div>
-                 <div style="position: absolute; z-index: 5">
-                   <h1 v-show="linksCardPremises === false">Помещения</h1>
-                   <div class="links-card" v-show="linksCardPremises === true">
-                     <a href="">Торговая площадь</a><br>
-                     <a href="">Производственное помещение</a><br>
-                     <a href="">Помещение свободного назначения</a><br>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
-        </div>
-
      </div>
 
      <div class="container-fluid main-links-wrapper mt-5">
@@ -223,7 +42,7 @@
               <div class="row icon-ability" data-aos = "zoom-in"
                                             data-aos-duration = "1000"
                                             data-aous-delay = "100">
-                <img src="http://127.0.0.1:5000/static/images/icons/round-add-button.png">
+                <img src="../assets/icons/round-add-button.png">
               </div>
               <div class="row title-ability" data-aos="fade-right"
                                              data-aos-easing="linear"
@@ -244,7 +63,7 @@
               <div class="row icon-ability"  data-aos = "zoom-in"
                                              data-aos-duration = "1000"
                                              data-aous-delay = "200">
-                <img src="http://127.0.0.1:5000/static/images/icons/text-document.png">
+                <img src="../assets/icons/text-document.png">
               </div>
               <div class="row title-ability" data-aos="fade-right"
                                              data-aos-easing="linear"
@@ -265,7 +84,7 @@
               <div class="row icon-ability"  data-aos = "zoom-in"
                                              data-aos-duration = "1000"
                                              data-aous-delay = "200">
-                <img src="http://127.0.0.1:5000/static/images/icons/database.png">
+                <img src="../assets/icons/database.png">
               </div>
               <div class="row title-ability" data-aos="fade-right"
                                              data-aos-easing="linear"
@@ -286,7 +105,7 @@
               <div class="row icon-ability" data-aos = "zoom-in"
                                             data-aos-duration = "1000"
                                             data-aous-delay = "300">
-                <img src="http://127.0.0.1:5000/static/images/icons/calculator.png">
+                <img src="../assets/icons/calculator.png">
               </div>
               <div class="row title-ability" data-aos="fade-right"
                                              data-aos-easing="linear"
@@ -407,13 +226,15 @@
   import AOS from 'aos'
   import { LMap, LTileLayer, LCircle, LMarker} from 'vue2-leaflet';
   import Footer from "../components/Footer"
+  import RowCard from "./Home/RowCards"
   export default {
     components : {
         LMap,
         LTileLayer,
         LMarker,
         LCircle,
-        appFooter: Footer
+        appFooter: Footer,
+        rowCard : RowCard
       },
     data: function () {
       return {
@@ -505,7 +326,7 @@
                 }
               ]
             },
-          ],
+          ]
         }
       },
       methods:{
@@ -522,7 +343,12 @@
         $(".text-article").each(function () {
           clamp(this, {clamp : 3})
         })
+      },
+    computed : {
+      categoryCards() {
+        return this.$store.getters.homeCategoryCards
       }
+    }
     };
 </script>
 
@@ -530,31 +356,12 @@
 
 <style lang = "scss" scoped>
 
- @mixin align-items($align){
-    -webkit-align-items: $align;
-            align-items: $align;
-
-  }
-  @mixin justify-content($justify){
-    -webkit-justify-content: $justify;
-            justify-content: $justify;
-  }
-
-  $primary-color-dark:   #512DA8;
-  $primary-color:        #673AB7;
-  $primary-color-light:  #D1C4E9;
-  $primary-color-text:   #FFFFFF;
-  $accent-color:         #9E9E9E;
-  $primary-text-color:   #212121;
-  $secondary-text-color: #757575;
-  $divider-color:        #BDBDBD;
+  @import "../css/main";
 
   /*ОБЩИЕ СТИЛИ*/
   .row{
     margin: 0;
   }
-
-
     /*Секция со стилями для preview и списка категорий*/
 
     .preview-wrapper {
@@ -660,63 +467,6 @@
       color: $primary-color-dark;
       margin-left: auto;
       margin-right: auto;
-    }
-    .card-categories {
-      height: 200px;
-
-    .bg-card {
-      width: 100%;
-      height: inherit;
-
-      h1 {
-        color: $primary-color-text;
-        font-weight: bold;
-        font-size: 40pt;
-        cursor: pointer;
-      }
-    }
-    .dark-bg-card {
-      width:100%;
-      height:inherit;
-      background: $primary-color;
-      opacity: .72;
-      position: absolute;
-      z-index: 1;
-    }
-    .info-card {
-      width: calc(100% - .5rem);
-      height: 100%;
-      position: absolute;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      a {
-        color: white;
-        font-weight: bold;
-        font-size: x-large;
-        position: relative;
-      }
-      a::before{
-        content: '';
-        bottom: 0;
-        left: 0;
-        position: absolute;
-        width: 100%;
-        height: 2px;
-        background-color: $primary-color-text;
-        transition: 0.2s;
-        transform: scaleX(0);
-      }
-      a:hover:before {transform: scaleX(1)}
-    }
-
-    }
-    .col-lg-4 {
-      padding-left: 0;
-      padding-right: .5rem;
-      text-align: center;
     }
 
   }
