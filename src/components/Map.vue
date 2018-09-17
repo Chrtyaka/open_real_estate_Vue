@@ -177,53 +177,7 @@
 
 <style lang = "scss" scoped>
 
-  @mixin align-items($align){
-    -webkit-align-items: $align;
-            align-items: $align;
-
-  }
-  @mixin justify-content($justify){
-    -webkit-justify-content: $justify;
-            justify-content: $justify;
-  }
-  @mixin border-radius($top-left,$top-right,$bottom-right,$bottom-left){
-     -webkit-border-radius: $top-left $top-right $bottom-right $bottom-left;
-                    border-radius: $top-left $top-right $bottom-right $bottom-left;
-  }
-  @mixin animation-duration($duration){
-     -webkit-animation-duration: $duration ;
-           -moz-animation-duration: $duration;
-             -o-animation-duration: $duration ;
-                animation-duration: $duration ;
-  }
-  @mixin iteration-count($count){
-    -webkit-animation-iteration-count: $count;
-           -moz-animation-iteration-count: $count;
-             -o-animation-iteration-count: $count;
-                animation-iteration-count: $count;
-  }
-  @mixin timing-function($function){
-    -webkit-animation-timing-function: $function;
-           -moz-animation-timing-function: $function;
-             -o-animation-timing-function: $function;
-                animation-timing-function: $function;
-  }
-  @mixin transition($duration){
-    -webkit-transition: $duration;
-       -moz-transition: $duration;
-        -ms-transition: $duration;
-         -o-transition: $duration;
-            transition: $duration;
-  }
-
-  $primary-color-dark:   #512DA8;
-  $primary-color:        #673AB7;
-  $primary-color-light:  #D1C4E9;
-  $primary-color-text:   #FFFFFF;
-  $accent-color:         #9E9E9E;
-  $primary-text-color:   #212121;
-  $secondary-text-color: #757575;
-  $divider-color:        #BDBDBD;
+  @import "../css/main";
 
   .map-container {
 
