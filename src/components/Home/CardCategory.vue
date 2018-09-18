@@ -28,12 +28,6 @@
             linksCard: false,
           }
       },
-      // methods: {
-      //   getUrlImg(name){
-      //     let images = require.context('../../assets/', false, /\.jpg$/);
-      //     return images('./overlays/' + name + '.jpg')
-      //   }
-      // }
     }
 </script>
 

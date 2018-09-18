@@ -1,7 +1,10 @@
 <template>
     <div>
       <div class="row pl-2 pt-2">
-        <div class="col-lg-4 col-md-4 card-categories pl-0" v-for="item in rowCards">
+        <div class="col-lg-4 col-md-4 card-categories pl-0"
+             v-for="item in rowCards"
+             data-aos="flip-left"
+             data-aos-duration = "1000">
           <app-card :cardData = "item"/>
         </div>
       </div>
