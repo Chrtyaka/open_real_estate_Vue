@@ -1,5 +1,6 @@
 <template>
  <div>
+   <app-header :name-component="name"/>
    <main style="background-color: #f5f6f7;">
 
      <section class="container-fluid preview-wrapper">
@@ -163,6 +164,7 @@
   import { LMap, LTileLayer, LCircle, LMarker} from 'vue2-leaflet';
   import Footer from "../components/Footer"
   import RowCard from "./Home/RowCards"
+  import Header from "../components/Header"
   export default {
     components : {
         LMap,
@@ -170,10 +172,12 @@
         LMarker,
         LCircle,
         appFooter: Footer,
-        rowCard : RowCard
+        rowCard : RowCard,
+      appHeader: Header
       },
     data: function () {
       return {
+          name : 'Home',
           nameTabs : ['Комнаты','Дома','Участки','Гаражи','Офисы','Торговля','Склады','Здания','Помещения'],
           bgCardStyle:{
             '-webkit-background-size': 'cover',
@@ -286,7 +290,6 @@
       },
       mounted(){
         AOS.init();
-        this.$store.commit('changeComponent', 'Home');
         setTimeout(function() { window.dispatchEvent(new Event('resize')) }, 250);
         this.$refs.map.mapObject.scrollWheelZoom.disable();
         $(".text-article").each(function () {

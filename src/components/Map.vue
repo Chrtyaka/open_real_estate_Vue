@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-header :name-component="name"/>
     <div class="container-fluid map-container" v-bind:style = "mapContainerStyle">
       <l-map ref="map" v-bind:style = "mapStyle" :zoom="zoom" :center="center" :options = "mapOptions">
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
@@ -69,17 +70,19 @@
 <script>
   import { LMap, LTileLayer, LCircle, LMarker} from 'vue2-leaflet';
   import Filters from '../components/Filters'
+  import Header from '../components/Header'
   export default {
-    name: 'Map',
     components: {
       LMap,
       LTileLayer,
       LMarker,
       LCircle,
       appFilters: Filters,
+      appHeader : Header
     },
     data () {
       return {
+        name: 'Map',
         list:[],
         c : {},
         zoom:11,
@@ -169,7 +172,6 @@
       }
     },
     mounted() {
-      this.$store.commit('changeComponent', 'Map');
       setTimeout(function() { window.dispatchEvent(new Event('resize')) }, 250);
     },
   };

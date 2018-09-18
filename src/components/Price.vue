@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-header :name-component="name"/>
       <div class="container-fluid price-wrapper">
         <div class="row pt-3 ">
           <div class="col-md-8">
@@ -30,12 +31,14 @@
   import {Chart} from "highcharts-vue"
   import Footer from "../components/Footer"
   import Card from "../components/Cards"
+  import Header from  "../components/Header"
     export default {
     components: {
       appFilters : Filters,
       highcharts : Chart,
       appFooter : Footer,
-      appCard : Card
+      appCard : Card,
+      appHeader : Header
     },
       data(){
         return{
@@ -56,12 +59,6 @@
           return this.$store.state.price
         },
       },
-      created(){
-        this.type = this.$route.params.tabname
-      },
-      mounted(){
-        this.$store.commit('changeComponent', 'Price');
-      }
   };
 </script>
 
@@ -70,7 +67,7 @@
 @mixin align-items($align){
   -webkit-align-items: $align;
           align-items: $align;
-      
+
 }
 @mixin justify-content($justify){
   -webkit-justify-content: $justify;
@@ -91,7 +88,7 @@
 
   .price-title-wrapper{
     @include title-wrappers;
-    
+
     h4 {margin-bottom: 0;}
 
   }
