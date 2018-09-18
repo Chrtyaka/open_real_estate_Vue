@@ -7,8 +7,6 @@ export const store = new Vuex.Store({
   state:{
     listObjects : [],
     price : 0,
-    smile : true,
-    currentComponent: '',
     userRegion:'',
     currentTypeRealEstate: '',
     homeCategoryCards: {
@@ -71,12 +69,6 @@ export const store = new Vuex.Store({
     },
     price(state, value){
       state.price = value;
-    },
-    showSmile(state, value){
-      state.smile = value;
-    },
-    changeComponent(state,value){
-      state.currentComponent = value
     },
     changeUserRegion(state, value){
       state.userRegion = value;
