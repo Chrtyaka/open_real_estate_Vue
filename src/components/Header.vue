@@ -72,24 +72,13 @@
       </div>
       <!-- Collapsible content -->
     </nav>
-    <transition
-      enter-active-class="animated slideInLeft">
-      <router-view></router-view>
-    </transition>
   </div>
 </template>
 
 <script>
-  import Home from "../components/Home"
-  import Objects from "../components/Objects"
-  import Map from "../components/Map"
-  import Price from  "../components/Price"
     export default {
-    components : {
-      appHome: Home,
-      appObjects: Objects,
-      appMap: Map,
-      appPrice : Price
+    props: {
+      nameComponent : String
     },
       data(){
         return{
@@ -99,35 +88,26 @@
           brandText: 'custom-text',
           mainLogoUrl: "",
           regions:['Волгоградская область','Московская область', 'Алтайский край'],
-          dropDownClass:''
+          dropDownClass:'',
+          scroll : ''
         }
       },
       methods:{
         handleScroll(event){
-          if(this.curComponent != 'Home'){
-              // Если прокрутка есть, то делаем блок прозрачным
+          if(this.nameComponent !== 'Home'){
+              // Статичный Header
               this.mainLogoUrl = require("../assets/icons/main-icon-primary-color.png");
               this.navbarClass = "navbar-light white";
               this.navbarOpacity = '1';
               this.brandText = 'scroll-text';
               this.dropDownClass = "dropdown-link-scroll"
           }else{
-            let scrolled = window.pageYOffset || document.documentElement.scrollTop; // Получаем положение скролла
-            if (scrolled !== 0){
-              // Если прокрутка есть, то делаем блок видимым
-              this.navbarClass = "navbar-light white";
-              this.navbarOpacity = '1';
-              this.brandText = 'scroll-text';
-              this.dropDownClass = "dropdown-link-scroll" ;
-              this.mainLogoUrl = require("../assets/icons/main-icon-primary-color.png");
-
-            }else{
-              // Если нет, то делаем его полностью прозрачным
-              this.mainLogoUrl = require("../assets/icons/main-icon-white.png");
-              this.brandText = 'custom-text-home';
-              this.navbarClass = "transparent-navbar";
-              this.dropDownClass = "dropdown-link"
-            }
+            let scrolled = window.pageYOffset || document.documentElement.scrollTop;
+            this.navbarClass = scrolled !== 0 ? "navbar-light white" : "transparent-navbar";
+            this.brandText = scrolled !== 0 ? 'scroll-text' : 'custom-text-home';
+            this.dropDownClass = scrolled !== 0 ? "dropdown-link-scroll" : "dropdown-link"
+            this.mainLogoUrl = scrolled !== 0 ?  require("../assets/icons/main-icon-primary-color.png")
+              : require("../assets/icons/main-icon-white.png")
           }
         },
         changeUserRegion(value){
@@ -141,32 +121,18 @@
         window.removeEventListener('scroll', this.handleScroll);
       },
       mounted(){
-        this.$store.commit('changeUserRegion', ymaps.geolocation.region)
-        if(this.$store.state.currentComponent === "Map"){
-          this.dropDownClass = "dropdown-link-scroll"
-        }
+        this.$store.commit('changeUserRegion', ymaps.geolocation.region);
       },
       computed:{
-        curComponent(){
-          return this.$store.state.currentComponent
-        },
         logoUrl(){
-           if (this.$store.state.currentComponent === "Home"){
-            this.mainLogoUrl = require("../assets/icons/main-icon-white.png");
-          }else{
-            this.mainLogoUrl = require("../assets/icons/main-icon-primary-color.png")
-          }
+          this.mainLogoUrl = this.nameComponent === "Home" ? require("../assets/icons/main-icon-white.png")
+            : require("../assets/icons/main-icon-primary-color.png")
         },
         currentClass(){
-          if(this.$store.state.currentComponent === 'Home'){
-             this.navbarClass = "transparent-navbar";
-             this.brandText = "custom-text-home";
-             this.dropDownClass = "dropdown-link";
-          }else {
-             this.navbarClass = "navbar-light white";
-             this.brandText = "custom-text";
-             this.dropDownClass = "dropdown-link-scroll";
-          }
+          // По идее я неправильно использую computed, но пока пусть так
+          this.navbarClass = this.nameComponent === "Home" ? "transparent-navbar" : "navbar-light white";
+          this.brandText = this.nameComponent === "Home" ? "custom-text-home" : "custom-text";
+          this.dropDownClass = this.nameComponent === "Home" ? "dropdown-link" : "dropdown-link-scroll";
         },
         userRegion(){
           return this.$store.state.userRegion;
@@ -176,28 +142,7 @@
 </script>
 
 <style lang = "scss" scoped>
-  @mixin align-items($align){
-    -webkit-align-items: $align;
-            align-items: $align;
-
-  }
-  @mixin justify-content($justify){
-    -webkit-justify-content: $justify;
-            justify-content: $justify;
-  }
-  @mixin border-radius($top-left,$top-right,$bottom-right,$bottom-left){
-     -webkit-border-radius: $top-left $top-right $bottom-right $bottom-left;
-                    border-radius: $top-left $top-right $bottom-right $bottom-left;
-  }
-
-  $primary-color-dark:   #512DA8;
-  $primary-color:        #673AB7;
-  $primary-color-light:  #D1C4E9;
-  $primary-color-text:   #FFFFFF;
-  $accent-color:         #9E9E9E;
-  $primary-text-color:   #212121;
-  $secondary-text-color: #757575;
-  $divider-color:        #BDBDBD;
+  @import "../css/main";
 
     .navbar {
 
