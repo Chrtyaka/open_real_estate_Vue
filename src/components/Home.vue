@@ -2,7 +2,7 @@
  <div>
    <main style="background-color: #f5f6f7;">
 
-     <div class="container-fluid preview-wrapper">
+     <section class="container-fluid preview-wrapper">
         <div class="container preview-text">
           <div class="row">
             <h1 class="preview-title">ОТКРЫТАЯ НЕДВИЖИМОСТЬ</h1>
@@ -20,113 +20,50 @@
               </div>
            </div>
         </div>
-     </div>
+     </section>
 
-     <div class="container-fluid card-categories-wrapper mt-4">
+     <section class="container-fluid card-categories-wrapper mt-4">
         <div class="row mt-4" data-aos = "fade-in">
          <h1>Любая недвижимость на ваш вкус!</h1>
        </div>
         <div v-for = "row in categoryCards">
           <row-card :rowCards = "row"/>
         </div>
-     </div>
+     </section>
 
-     <div class="container-fluid main-links-wrapper mt-5">
+     <section class="container-fluid main-links-wrapper mt-5">
         <div class="row pt-5" data-aos="fade-in"
                               data-aos-delay = "100">
           <h1>Дополнительные возможности для вас</h1>
         </div>
         <div class="main-links">
           <div class="row">
-            <div class="col-lg-3 col-md-3">
+            <div class="col-lg-3 col-md-3" v-for = "item in mainLinksData">
               <div class="row icon-ability" data-aos = "zoom-in"
                                             data-aos-duration = "1000"
                                             data-aous-delay = "100">
-                <img src="../assets/icons/round-add-button.png">
+                <img :src="require('../assets/icons/' + item.iconName + '.png')">
               </div>
               <div class="row title-ability" data-aos="fade-right"
                                              data-aos-easing="linear"
                                              data-aos-duration = "500"
                                              data-aos-delay = "200">
-                <a class="pt-4">Подать объявление</a>
+                <a class="pt-4">{{item.title}}</a>
               </div>
               <div class="row body-ability"   data-aos="fade-up"
                                               data-aos-easing="linear"
                                               data-aos-duration = "500"
                                               data-aos-delay = "200">
                 <p class="pt-2">
-                   Разместите информацию о продаже или аренде объектов недвижимости на нашем сайте
+                   {{item.body}}
                 </p>
                 </div>
              </div>
-            <div class="col-lg-3 col-md-3"  >
-              <div class="row icon-ability"  data-aos = "zoom-in"
-                                             data-aos-duration = "1000"
-                                             data-aous-delay = "200">
-                <img src="../assets/icons/text-document.png">
-              </div>
-              <div class="row title-ability" data-aos="fade-right"
-                                             data-aos-easing="linear"
-                                             data-aos-duration = "500"
-                                             data-aos-delay = "200">
-                <a class="pt-3 pl-3">Документы</a>
-              </div>
-              <div class="row body-ability"  data-aos="fade-up"
-                                             data-aos-easing="linear"
-                                             data-aos-duration = "500"
-                                             data-aos-delay = "200">
-                <p class="pt-2">
-                   Получите бланки необходимых документов для сделок с недвижимостью в любое удобное для вас время и абсолютно бесплатно
-                 </p>
-              </div>
-             </div>
-            <div class="col-lg-3 col-md-3">
-              <div class="row icon-ability"  data-aos = "zoom-in"
-                                             data-aos-duration = "1000"
-                                             data-aous-delay = "200">
-                <img src="../assets/icons/database.png">
-              </div>
-              <div class="row title-ability" data-aos="fade-right"
-                                             data-aos-easing="linear"
-                                             data-aos-duration = "500"
-                                             data-aos-delay = "200">
-                <a class="pt-3 pl-3">База данных и API</a>
-              </div>
-              <div class="row body-ability"  data-aos="fade-up"
-                                             data-aos-easing="linear"
-                                             data-aos-duration = "500"
-                                             data-aos-delay = "200">
-                <p class="pt-2">
-                   Воспользуйтесь данными базы объектов недвижимости по своему усмотрению – скачивайте файлом в удобном формате или настройте доступ с помощью нашего API
-                 </p>
-              </div>
-             </div>
-            <div class="col-lg-3 col-md-3">
-              <div class="row icon-ability" data-aos = "zoom-in"
-                                            data-aos-duration = "1000"
-                                            data-aous-delay = "300">
-                <img src="../assets/icons/calculator.png">
-              </div>
-              <div class="row title-ability" data-aos="fade-right"
-                                             data-aos-easing="linear"
-                                             data-aos-duration = "500"
-                                             data-aos-delay = "200">
-                <a class="pt-3 pl-3">Калькуляторы</a>
-              </div>
-              <div class="row body-ability"  data-aos="fade-up"
-                                             data-aos-easing="linear"
-                                             data-aos-duration = "500"
-                                             data-aos-delay = "200">
-                <p class="pt-2">
-                   Оцените стоимость недвижимости с учётом всех особенностей вашего объекта
-                 </p>
-               </div>
-             </div>
            </div>
          </div>
-     </div>
+     </section>
 
-     <div class="container-fluid main-map-wrapper">
+     <section class="container-fluid main-map-wrapper">
         <div class="row title-map" data-aos="fade-in"
                                    data-aos-easing="linear"
                                    data-aos-duration = "1000"
@@ -144,9 +81,9 @@
             <span>перейти на карту</span>
           </div>
         </div>
-    </div>
+    </section>
 
-     <div class="container-fluid news-wrapper">
+     <section class="container-fluid news-wrapper">
        <div class="row title-info" data-aos="fade-in"
                                    data-aos-easing="linear"
                                    data-aos-duration = "200"
@@ -154,18 +91,17 @@
          <h1>Полезная информация</h1>
        </div>
        <div class="row">
-           <div class="col-lg-4 col-md-4" v-for = "item in infoItems"
+           <div class="col-lg-4 col-md-4" v-for = "column in infoItems"
                 data-aos="fade-in"
                 data-aos-easing="linear"
                 data-aos-duration = "1000"
                 data-aos-delay = "200">
-
              <div class="row news-category-title">
-               <img :src="item.imgUrl">
-               <h4 style="color:#212121;">{{item.title}}</h4>
+               <img :src="require('../assets/icons/' + column.iconName + '.png')">
+               <h4 style="color:#212121;">{{column.title}}</h4>
              </div>
-             <div class="news-block" v-bind:style="item.columnStyle">
-               <div v-for="(item, index) in item.items">
+             <div class="news-block" v-bind:style="column.columnStyle">
+               <div v-for="item in column.items">
                  <div class="row news-item">
                    <div class="col-12">
                      <div>
@@ -177,14 +113,14 @@
                  <hr size="2" class="pb-1">
                </div>
                <div class="row">
-                <a class="more-info" href="">{{item.moreInfoText}}</a>
+                <a class="more-info" href="">{{column.moreInfoText}}</a>
                </div>
              </div>
            </div>
        </div>
-     </div>
+     </section>
 
-     <div class="container-fluid about-wrapper">
+     <section class="container-fluid about-wrapper">
        <div class="container about-text">
          <div class="row pt-3">
            <h2 style="margin-left: auto; margin-right: auto; color:#fff; font-weight: bold;">Открытая недвижимость - это:</h2>
@@ -210,10 +146,10 @@
          <hr color="white" size="2">
          <div class="row" style="display: flex; -ms-align-items: center;align-items: center; justify-content: center;">
             <h5 style="color:white;" class="pr-3 pt-1" >Мобильное приложение</h5>
-            <img src="http://127.0.0.1:5000/static/images/icons/google.png" alt="">
+            <img src="../assets/icons/google.png" alt="">
          </div>
        </div>
-     </div>
+     </section>
 
    </main>
    <appFooter></appFooter>
@@ -246,15 +182,6 @@
           userRegion: 'Волгоградская область',
           region : true,
           linkListClass:'col-md-8 pr-0',
-          linksCardApart: false,
-          linksCardRooms: false,
-          linksCardGarden: false,
-          linksCardHouse: false,
-          linksCardGarage: false,
-          linksCardOffice: false,
-          linksCardStorage: false,
-          linksCardBuild: false,
-          linksCardPremises: false,
           zoom:11,
           mapOptions: { zoomControl: true},
           center: L.latLng(55.7820534, 37.5680638),
@@ -265,7 +192,7 @@
               moreInfoText: "Еще о регионах...",
               title:"В регионах",
               columnStyle:{},
-              imgUrl : '../assets/icons/earth.png',
+              iconName : 'earth',
               items:[
                 {
                   title : 'Шикарная новость',
@@ -286,7 +213,7 @@
               moreInfoText: "Больше советов...",
               title: "Советы специалистов",
               columnStyle:{},
-              imgUrl : '../assets/icons/edit.png',
+              iconName : 'edit',
               items:[
                 {
                   title : 'Шикарная новость',
@@ -309,7 +236,7 @@
               columnStyle:{
                 "padding-right": "15px"
               },
-              imgUrl : '../assets/icons/instruction.png',
+              iconName : 'instruction',
               items:[
                 {
                   title : 'Шикарная новость',
@@ -326,6 +253,28 @@
                 }
               ]
             },
+          ],
+          mainLinksData : [
+            {
+              iconName : 'round-add-button',
+              title : 'Подать объявление',
+              body: 'Разместите информацию о продаже или аренде объектов недвижимости на нашем сайте'
+            },
+            {
+              iconName: 'text-document',
+              title: 'Документы',
+              body: 'Получите бланки необходимых документов для сделок с недвижимостью в любое удобное для вас время и абсолютно бесплатно'
+            },
+            {
+              iconName: 'database',
+              title: 'База данных и API',
+              body: 'Воспользуйтесь данными базы объектов недвижимости по своему усмотрению – скачивайте файлом в удобном формате или настройте доступ с помощью нашего API'
+            },
+            {
+              iconName: 'calculator',
+              title: 'Калькуляторы',
+              body: 'Оцените стоимость недвижимости с учётом всех особенностей вашего объекта'
+            }
           ]
         }
       },

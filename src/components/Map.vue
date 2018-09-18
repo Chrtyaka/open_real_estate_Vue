@@ -89,11 +89,11 @@
         attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         customIcons: {
           defaultIcon : L.icon({
-            iconUrl: 'http://127.0.0.1:5000/static/images/icons/marker.png',
+            iconUrl: require('../assets/icons/marker.png'),
             iconSize:     [30, 30],
           }),
           activeIcon : L.icon({
-            iconUrl : 'http://127.0.0.1:5000/static/images/icons/marker-active.png',
+            iconUrl : require('../assets/icons/marker-active.png'),
             iconSize : [40,40]
           })
         },
@@ -220,7 +220,7 @@
       @include border-radius(10px,0,0,10px);
 
       .btn-sidebar-img{
-        content: url('http://127.0.0.1:5000/static/images/icons/settings-map.png');
+        content: url(../assets/icons/settings-map.png);
         cursor: pointer;
       }
       .btn-sidebar-img:hover{

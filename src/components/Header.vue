@@ -106,7 +106,7 @@
         handleScroll(event){
           if(this.curComponent != 'Home'){
               // Если прокрутка есть, то делаем блок прозрачным
-              this.mainLogoUrl = "http://127.0.0.1:5000/static/images/icons/main-icon-primary-color.png";
+              this.mainLogoUrl = require("../assets/icons/main-icon-primary-color.png");
               this.navbarClass = "navbar-light white";
               this.navbarOpacity = '1';
               this.brandText = 'scroll-text';
@@ -119,11 +119,11 @@
               this.navbarOpacity = '1';
               this.brandText = 'scroll-text';
               this.dropDownClass = "dropdown-link-scroll" ;
-              this.mainLogoUrl = "http://127.0.0.1:5000/static/images/icons/main-icon-primary-color.png";
+              this.mainLogoUrl = require("../assets/icons/main-icon-primary-color.png");
 
             }else{
               // Если нет, то делаем его полностью прозрачным
-              this.mainLogoUrl = "http://127.0.0.1:5000/static/images/icons/main-icon-white.png";
+              this.mainLogoUrl = require("../assets/icons/main-icon-white.png");
               this.brandText = 'custom-text-home';
               this.navbarClass = "transparent-navbar";
               this.dropDownClass = "dropdown-link"
@@ -152,9 +152,9 @@
         },
         logoUrl(){
            if (this.$store.state.currentComponent === "Home"){
-            this.mainLogoUrl = "http://127.0.0.1:5000/static/images/icons/main-icon-white.png";
+            this.mainLogoUrl = require("../assets/icons/main-icon-white.png");
           }else{
-            this.mainLogoUrl = "http://127.0.0.1:5000/static/images/icons/main-icon-primary-color.png"
+            this.mainLogoUrl = require("../assets/icons/main-icon-primary-color.png")
           }
         },
         currentClass(){

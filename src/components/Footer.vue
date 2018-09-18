@@ -56,32 +56,32 @@ $divider-color:        #BDBDBD;
 @mixin align-items($align){
     -webkit-align-items: $align;
             align-items: $align;
-        
+
 }
 @mixin justify-content($justify){
     -webkit-justify-content: $justify;
             justify-content: $justify;
 }
-  
+
 footer {
   width: 100%;
   height: 50px;
   background-color: $primary-color-text;
-  
+
   .footer-links-wrapper{
     width: 100%;
     height: inherit;
     background-color: $primary-color-text;
-    
-    .row { 
+
+    .row {
       height: inherit;
-      
+
       .copyright-links {
        height: inherit;
-       display: flex; 
+       display: flex;
        @include align-items(center);
-       @include justify-content(flex-start)
-       
+       @include justify-content(flex-start);
+
        span {
          text-transform: uppercase;
          letter-spacing: .1rem;
@@ -93,7 +93,7 @@ footer {
         display: flex;
         @include align-items(center);
         @include justify-content(space-around);
-        
+
         a { color: $primary-color-dark}
         a:hover { color: $primary-color-light}
       }
