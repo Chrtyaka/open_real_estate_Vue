@@ -12,7 +12,11 @@
   -webkit-border-radius: $top-left $top-right $bottom-right $bottom-left;
   border-radius: $top-left $top-right $bottom-right $bottom-left;
 }
-
+@mixin box-shadow($inset,$hoff, $voff, $blur, $color){
+  -webkit-box-shadow: $inset $hoff $voff $blur $color;
+  -moz-box-shadow: $inset $hoff $voff $blur $color;
+  box-shadow: $inset $hoff $voff $blur $color;
+}
 @mixin animation-name($name){
   -webkit-animation-name: $name;
   -moz-animation-name: $name;
@@ -54,3 +58,46 @@ $accent-color:         #9E9E9E;
 $primary-text-color:   #212121;
 $secondary-text-color: #757575;
 $divider-color:        #BDBDBD;
+
+
+.checkbox {
+  position: relative;
+  margin: 0 1rem .2rem 0;
+  cursor: pointer;
+}
+
+.checkbox:before {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  content: "";
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #6200ea;
+}
+
+.checkbox:checked:before {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  height: .5rem;
+  border-color: #6200ea;
+  border-top-style: none;
+  border-right-style: none;
+}
+
+.checkbox:after {
+  content: "";
+  position: absolute;
+  top: -0.125rem;
+  left: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  background: #fff;
+  cursor: pointer;
+}
