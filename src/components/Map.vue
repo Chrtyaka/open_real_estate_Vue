@@ -1,26 +1,29 @@
 <template>
   <div>
     <app-header :name-component="name"/>
-    <div class="container-fluid map-container" v-bind:style = "mapContainerStyle">
-      <l-map ref="map" v-bind:style = "mapStyle" :zoom="zoom" :center="center" :options = "mapOptions">
+    <div class="container-fluid map-container" v-bind:style="mapContainerStyle">
+      <l-map ref="map" v-bind:style="mapStyle" :zoom="zoom" :center="center" :options="mapOptions">
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
         <div v-for="item in list">
-          <l-marker :lat-lng = "item.coord" :icon = "customIcons[item.icon]" @click = "showInfo(item)" :key = "item.id">
+          <l-marker :lat-lng="item.coord" :icon="customIcons[item.icon]" @click="showInfo(item)" :key="item.id">
           </l-marker>
         </div>
       </l-map>
       <div class="left-middle-block">
-        <button type="button" class="btn btn-deep-purple  lighten-2 btn-circle" @click = "userLocate()"><i class="fa fa-location-arrow fa-1x"></i></button>
-        <button type="button" class="btn btn-deep-purple  lighten-2 btn-circle" @click = "zPlus()"><i class="fa fa-plus fa-1x"></i></button>
-        <button type="button" class="btn btn-deep-purple  lighten-2 btn-circle" @click = "zMinus()"><i class="fa fa-minus fa-1x"></i></button>
+        <button type="button" class="btn btn-deep-purple  lighten-2 btn-circle" @click="userLocate()"><i
+          class="fa fa-location-arrow fa-1x"></i></button>
+        <button type="button" class="btn btn-deep-purple  lighten-2 btn-circle" @click="zPlus()"><i
+          class="fa fa-plus fa-1x"></i></button>
+        <button type="button" class="btn btn-deep-purple  lighten-2 btn-circle" @click="zMinus()"><i
+          class="fa fa-minus fa-1x"></i></button>
       </div>
-      <div class="btn-sidebar" @click = "showSidebar()">
-        <img class = "btn-sidebar-img">
+      <div class="btn-sidebar" @click="showSidebar()">
+        <img class="btn-sidebar-img">
       </div>
     </div>
     <transition
-    enter-active-class="animated slideInRight"
-    leave-active-class="animated slideOutRight">
+      enter-active-class="animated slideInRight"
+      leave-active-class="animated slideOutRight">
       <div class="filters-sidebar-wrapper" v-show="sideBar">
         <appFilters type="Квартиры"></appFilters>
       </div>
@@ -29,38 +32,12 @@
       <div class="row info-object__header">
         <span class="info-object__header__address">Ваш объект</span>
         <div class="info-object__header__buttons">
-          <i class="fa fa-window-minimize" @click = "infoObjectContent = !infoObjectContent"></i>
+          <i class="fa fa-window-minimize" @click="infoObjectContent = !infoObjectContent"></i>
         </div>
       </div>
       <transition enter-active-class="animated fadeIn"
                   leave-active-class="animated fadeOut">
-        <div class="info-object__content" v-show="infoObjectContent">
-          <div class="row info-object__content__image">
-            <img :src="infoData.imgUrl"
-                 onerror="this.src='https://placeholdit.imgix.net/~text?txtsize=38&txt=400%C3%97400&w=400&h=400'"
-                 align="center">
-          </div>
-          <div class="row info-object__content__price">
-            <h3>{{infoData.price}} &#8381</h3>
-          </div>
-          <div class="row info-object__content__address">
-            <h4>{{infoData.address}}</h4>
-          </div>
-          <div class="row info-object__content__parameters">
-            <p style="padding-left: 5%;">Комнат {{infoData.countRooms}}</p>
-            <p>{{infoData.totalArea}} м <sup>2</sup></p>
-            <p style="padding-right: 5%;">Этаж {{infoData.floor}}</p>
-          </div>
-          <div class="row info-object__content__links">
-            <div class="col-8">
-              <a href="" class="more-info">Подробнее</a>
-            </div>
-            <div class="col-4">
-              <a href="" class="add-favorite" title="Добавить в избранное"><i class="fa fa-heart fa-2x"></i></a>
-              <a href="" class="add-compare" title="Добавить к сравнению"><i class="fa fa-plus fa-2x"></i></a>
-            </div>
-          </div>
-        </div>
+        <app-object-info v-show="infoObjectContent" :infoData="infoData"/>
       </transition>
 
     </div>
@@ -68,9 +45,11 @@
 </template>
 
 <script>
-  import { LMap, LTileLayer, LCircle, LMarker} from 'vue2-leaflet';
+  import {LMap, LTileLayer, LCircle, LMarker} from 'vue2-leaflet';
   import Filters from '../components/Filters'
   import Header from '../components/Header'
+  import ObjectInfo from '../components/Map/ObjectInfo'
+
   export default {
     components: {
       LMap,
@@ -78,75 +57,76 @@
       LMarker,
       LCircle,
       appFilters: Filters,
-      appHeader : Header
+      appHeader: Header,
+      appObjectInfo: ObjectInfo
     },
-    data () {
+    data() {
       return {
         name: 'Map',
-        list:[],
-        c : {},
-        zoom:11,
-        mapOptions: { zoomControl: false},
+        list: [],
+        c: {},
+        zoom: 11,
+        mapOptions: {zoomControl: false},
         center: L.latLng(55.7820534, 37.5680638),
-        url:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-        attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         customIcons: {
-          defaultIcon : L.icon({
+          defaultIcon: L.icon({
             iconUrl: require('../assets/icons/marker.png'),
-            iconSize:     [30, 30],
+            iconSize: [30, 30],
           }),
-          activeIcon : L.icon({
-            iconUrl : require('../assets/icons/marker-active.png'),
-            iconSize : [40,40]
+          activeIcon: L.icon({
+            iconUrl: require('../assets/icons/marker-active.png'),
+            iconSize: [40, 40]
           })
         },
         sideBar: false,
         mapStyle: {
-          height : "calc(100vh - 50px)",
+          height: "calc(100vh - 50px)",
           position: "absolute",
           zIndex: "0"
         },
-        mapContainerStyle:{
-          width : "100%",
+        mapContainerStyle: {
+          width: "100%",
           height: "calc(100vh - 50px)"
         },
         sidebarStyle: {
-          width : "0"
+          width: "0"
         },
         infoObjectContent: false,
-        infoObjectSize : '70%',
+        infoObjectSize: '70%',
         infoData: {
-          imgUrl : '',
-          price : '',
+          imgUrl: '',
+          price: '',
           address: '',
-          countRooms : '',
-          floor : '',
+          countRooms: '',
+          floor: '',
           totalArea: ''
         }
       }
     },
     methods: {
-      zPlus(){
+      zPlus() {
         this.$refs.map.mapObject.zoomIn()
       },
-      zMinus(){
+      zMinus() {
         this.$refs.map.mapObject.zoomOut()
       },
-      userLocate(){
-        this.$refs.map.mapObject.locate( {setView: true})
+      userLocate() {
+        this.$refs.map.mapObject.locate({setView: true})
       },
-      showSidebar(){
-        if (this.mapContainerStyle.width === "100%"){
+      showSidebar() {
+        if (this.mapContainerStyle.width === "100%") {
           this.mapContainerStyle.width = "calc(100% - 350px)";
           this.sideBar = true;
-        }else{
+        } else {
           this.mapContainerStyle.width = "100%";
           this.sideBar = false;
         }
       },
       showInfo(data) {
-        for (let el in this.list){
-           this.list[el].icon = data.id === this.list[el].id ? 'activeIcon' : 'defaultIcon';
+        for (let el in this.list) {
+          this.list[el].icon = data.id === this.list[el].id ? 'activeIcon' : 'defaultIcon';
         }
         this.infoObjectContent = true;
         this.infoData.imgUrl = data.urlThumbImage;
@@ -157,14 +137,14 @@
         this.infoData.totalArea = data.totalArea;
       },
     },
-    computed : {
-      infoSize(){
+    computed: {
+      infoSize() {
         return this.infoObjectContent ? '70%' : '45px'
       }
     },
-    created(){
+    created() {
       this.list = this.$store.state.listObjects;
-      for (let el in this.list){
+      for (let el in this.list) {
         let cord = [this.list[el].lat, this.list[el].lng];
         this.list[el]['coord'] = cord
 
@@ -172,12 +152,14 @@
       }
     },
     mounted() {
-      setTimeout(function() { window.dispatchEvent(new Event('resize')) }, 250);
+      setTimeout(function () {
+        window.dispatchEvent(new Event('resize'))
+      }, 250);
     },
   };
 </script>
 
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 
   @import "../css/main";
 
@@ -187,7 +169,7 @@
     margin-top: 50px;
     position: absolute;
     transition: 1s;
-    overflow : hidden;
+    overflow: hidden;
 
     .left-middle-block {
       position: absolute;
@@ -212,20 +194,20 @@
       position: absolute;
       height: 50px;
       width: 50px;
-      top:0;
+      top: 0;
       right: 0;
       transform: translateY(calc(50vh - 50px));
       background-color: $primary-color;
       display: flex;
       @include align-items(center);
       @include justify-content(center);
-      @include border-radius(10px,0,0,10px);
+      @include border-radius(10px, 0, 0, 10px);
 
-      .btn-sidebar-img{
+      .btn-sidebar-img {
         content: url(../assets/icons/settings-map.png);
         cursor: pointer;
       }
-      .btn-sidebar-img:hover{
+      .btn-sidebar-img:hover {
         animation-name: spin;
         @include animation-duration(1.5s);
         @include iteration-count(infinite);
@@ -235,10 +217,11 @@
     }
 
   }
+
   .filters-sidebar-wrapper {
     position: absolute;
     top: 0;
-    right:0;
+    right: 0;
     margin-top: 50px;
     z-index: 1;
     width: 350px;
@@ -257,10 +240,12 @@
       }
     }
   }
+
   ::-webkit-scrollbar {
     width: 0;
     background: transparent; /* make scrollbar transparent */
   }
+
   .info-object {
     width: 25%;
     height: 70%;
@@ -308,7 +293,7 @@
         width: 100%;
         height: 45%;
 
-        img{
+        img {
           width: 100%;
         }
       }
@@ -367,7 +352,7 @@
           padding-left: 5%;
           padding-right: 0;
 
-          .more-info{
+          .more-info {
             color: $primary-color;
             font-size: x-large;
             padding: 5px 20px;
