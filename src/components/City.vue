@@ -5,13 +5,37 @@
       <div class="row">
         <div class="col-lg-8">
           <div class="container diagram-wrapper mt-3">
-            <city-chart :chart-data="chartData" :options="optionsChart" :style="{width: '100%', height : '100%'}"/>
+            <city-chart
+              :chart-data="chartData"
+              :options="optionsChart"
+              :style="{width: '100%', height : '89%'}"
+              v-show="pickedContent === 'diagram'"
+            />
+            <div class="map-container" v-show="pickedContent === 'map'">
+              <l-map ref="map" :zoom="zoom" :center="center">
+                <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+              </l-map>
+            </div>
+            <div class="row btn-switch">
+              <div class="btn-group" data-toggle="buttons">
+                <label class="btn active" @click = "pickedContent = 'diagram'">
+                  <input type="radio" name="options" autocomplete="off"
+                         v-model="pickedContent">Диаграмма
+                </label>
+                <label class="btn" @click = "pickedContent = 'map'">
+                  <input type="radio" name="options" autocomplete="off"> Карта
+                </label>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="filters-wrapper mt-3">
+            <div class="row filters-wrapper__title">
+              <h6 class="pb-0">Период</h6>
+            </div>
             <form>
-              <div class="form-row filters-wrapper__year-inputs">
+              <div class="form-row filters-wrapper__year-inputs mt-1">
                 <div class="col">
                   <div class="md-form filters-wrapper__year-inputs--from">
                     <input type="number" class="form-control" placeholder="От" min="2010"
@@ -80,7 +104,7 @@
                 </div>
               </div>
             </div>
-            <div class="row filters-wrapper__buttons">
+            <div class="row filters-wrapper__buttons mt-2">
               <div class="col-md-6 filters-wrapper__buttons--purple">
                 <button type="button" class = "btn btn-block" @click = "updateDiagram">Показать</button>
               </div>
@@ -100,10 +124,14 @@
   import Header from "../components/Header"
   import CityChart from "../components/City/CityStatChart"
   import Footer from  "../components/Footer"
+  import {LMap, LTileLayer, LCircle} from 'vue2-leaflet';
 
   export default {
     name: "City",
     components: {
+      LMap,
+      LTileLayer,
+      LCircle,
       appHeader: Header,
       cityChart: CityChart,
       appFooter : Footer
@@ -114,6 +142,13 @@
         regions : [],
         checkedRegions : [],
         localities : [],
+        pickedContent : 'diagram',
+        zoom: 3,
+        center : [66.25, 94.14],
+        url: 'https://api.tiles.mapbox.com/v4/mapbox.light/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiY2hydHlha2EiLCJhIjoiY2ptYzMxeWtvMDQ3ZzN2bzlpd3BlZnFmdiJ9.ybOJY_NY-PPYXv7bVUm1jQ',
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
         filters : {
           checkedCity : [],
           checkedFeature : [],
@@ -121,24 +156,8 @@
           yearMax : '2017'
         },
         dataChart: {
-          labels: ['January', 'February'],
-          datasets: [
-            {
-              label: 'GitHub Commits',
-              borderColor: '#f87979',
-              backgroundColor: 'rgba(248, 119, 119, 0.54)',
-              data: [3000000, 2000000],
-              fill: true,
-              borderWidth: 1
-            },
-            {
-              label: "Pornhub views",
-              borderColor: '#673ab6',
-              backgroundColor: 'rgba(103, 58, 182, 0.54)',
-              data: [6000000, 7500000],
-              borderWidth: 1
-            }
-          ]
+          labels: [],
+          datasets: []
         },
         optionsChart: {
           responsive : true,
@@ -154,6 +173,7 @@
     methods: {
       loadLocality() {
         this.localities = [];
+        this.filters.checkedCity = [];
         let arr = {
           "area_name": ""
         };
@@ -172,13 +192,13 @@
       updateDiagram(){
         this.$http.post('get_feature_locality', this.filters).then(response => {
           let result = response.body;
-          this.dataChart = {}
-          this.dataChart['labels'] = result.labels
-          this.dataChart['datasets'] = []
+          this.dataChart = {};
+          this.dataChart['labels'] = result.labels;
+          this.dataChart['datasets'] = [];
           for (let el in result.datasets) {
-            result.datasets[el]['backgroundColor'] = this.pickColor()
-            result.datasets[el]['fill'] = true
-            result.datasets[el]['borderWidth'] = 1
+            result.datasets[el]['backgroundColor'] = this.pickColor();
+            result.datasets[el]['fill'] = true;
+            result.datasets[el]['borderWidth'] = 1;
 
             this.dataChart.datasets.push(result.datasets[el])
           }
@@ -195,7 +215,10 @@
       });
       this.$http.post('get_area').then(response => {
         this.regions = response.body;
-      })
+      });
+    },
+    updated() {
+      this.$refs.map.mapObject.invalidateSize()
     }
   }
 </script>
@@ -203,6 +226,9 @@
 <style lang="scss" scoped>
   @import "../css/main";
 
+  .md-form, .form-control {
+    margin: 0 !important;
+  }
   .city-wrapper {
     padding-left: 3rem;
     padding-right: 3rem;
@@ -214,14 +240,38 @@
   .diagram-wrapper {
     display: flex;
     position: relative;
-    @include align-items(center);
-    height: 75vh;
+    @include align-items(flex-start);
+    flex-direction: column;
+    height: 78vh;
     background-color: $primary-color-text;
-    @include box-shadow(0, 4px, 8px, 0, rgba(0, 0, 0, .07))
+    @include box-shadow(0, 4px, 8px, 0, rgba(0, 0, 0, .07));
+
+    .map-container {
+      width: 100%;
+      height: 89%;
+      padding-top: 10px;
+    }
+    .btn-switch {
+      display: flex;
+      width: 100%;
+      @include align-items(center);
+      @include justify-content(center);
+
+      .btn {
+        background-color: $primary-color-light;
+      }
+      .active {
+        background-color: $primary-color;
+      }
+
+      input {
+        display: none;
+      }
+    }
   }
 
   .filters-wrapper {
-    height: 75vh;
+    height: 78vh;
     background-color: $primary-color-text;
     @include box-shadow(0, 4px, 8px, 0, rgba(0, 0, 0, .07));
 
@@ -241,12 +291,9 @@
 
     &__year-inputs {
 
-      .md-form {
-        margin: 0 !important;
-      }
-
       &--from {
         padding-left: 1rem;
+
       }
       &--to {
         padding-right: 1rem;
