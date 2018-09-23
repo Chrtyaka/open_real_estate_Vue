@@ -8,7 +8,7 @@
             </div>
             <div class="col-md-4 contacts">
               <a href="">Контакты</a>
-              <a href="">Оставить отзыв</a>
+              <a href="http://urbanbasis.com/feedback">Оставить отзыв</a>
             </div>
           </div>
         </div>
