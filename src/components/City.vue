@@ -6,23 +6,36 @@
         <div class="col-lg-8">
           <div class="container diagram-wrapper mt-3">
             <city-chart
-              :chart-data="chartData"
-              :options="optionsChart"
-              :style="{width: '100%', height : '89%'}"
-              v-show="pickedContent === 'diagram'"
-            />
+                :chart-data="chartData"
+                :options="optionsChart"
+                :style="{width: '100%', height : '89%'}"
+                v-show="pickedContent === 'diagram'"
+              />
             <div class="map-container" v-show="pickedContent === 'map'">
               <l-map ref="map" :zoom="zoom" :center="center">
                 <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+                <l-circle v-for="item in mapData"
+                          :lat-lng = "item.coord"
+                          :radius = "2500"
+                          :color = "circleOptions.color"
+                          :fillColor = "circleOptions.fillColor"
+                >
+                  <l-popup>
+                    <h5>{{item.city}}</h5>
+                    <span v-for="el in Object.keys(item.values)">{{el + ':' + item.values[el]}}<br/></span>
+                  </l-popup>
+                </l-circle>
+                <div class="cssload-container" v-show="load">
+                  <div class="cssload-speeding-wheel"></div>
+                </div>
               </l-map>
             </div>
             <div class="row btn-switch">
               <div class="btn-group" data-toggle="buttons">
                 <label class="btn active" @click = "pickedContent = 'diagram'">
-                  <input type="radio" name="options" autocomplete="off"
-                         v-model="pickedContent">Диаграмма
+                  <input type="radio" name="options" autocomplete="off">Диаграмма
                 </label>
-                <label class="btn" @click = "pickedContent = 'map'">
+                <label class="btn" @click = "initMap()">
                   <input type="radio" name="options" autocomplete="off"> Карта
                 </label>
               </div>
@@ -54,11 +67,16 @@
                 </div>
               </div>
             </form>
+
             <div class="row filters-wrapper__title">
               <h6>Критерии</h6>
             </div>
+            <div class="row filters-wrapper__title" v-show="pickedContent === 'map'">
+              <h6 v-bind:style="{color : '#673AB7'}"><sup>*</sup>Выберите один критерий</h6>
+            </div>
             <div class="row filters-wrapper__checkbox">
-              <div class="filters-wrapper__checkbox__container">
+              <div class="filters-wrapper__checkbox__container"
+                   v-bind:style="{height: criteriaListHeight, overflowY : pickedContent === 'map' ? 'hidden': 'scroll'}">
                 <div class="row" v-for="(item, index) in criteriaList.features">
                   <input type="checkbox" class="checkbox"
                          :id="'feature' + index"
@@ -70,43 +88,44 @@
                 </div>
               </div>
             </div>
-
-            <div class="row filters-wrapper__title">
-              <h6>Регионы</h6>
-            </div>
-            <div class="row filters-wrapper__checkbox">
-              <div class="filters-wrapper__checkbox__container">
-                <div class="row" v-for="item in regions.area">
-                  <input type="checkbox" class="checkbox"
-                         :id="'area' + item.area_id"
-                         :value = "item.area_name"
-                         :key = "item.area_id"
-                         v-model="checkedRegions"
-                         @change = "loadLocality"
-                  >
-                  <label :for="'area' + item.area_id">{{item.area_name}}</label>
+            <div v-show="pickedContent === 'diagram'">
+              <div class="row filters-wrapper__title">
+                <h6>Регионы</h6>
+              </div>
+              <div class="row filters-wrapper__checkbox">
+                <div class="filters-wrapper__checkbox__container">
+                  <div class="row" v-for="item in regions.area">
+                    <input type="checkbox" class="checkbox"
+                           :id="'area' + item.area_id"
+                           :value = "item.area_name"
+                           :key = "item.area_id"
+                           v-model="checkedRegions"
+                           @change = "loadLocality"
+                    >
+                    <label :for="'area' + item.area_id">{{item.area_name}}</label>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="row filters-wrapper__title">
-              <h6>Города</h6>
-            </div>
-            <div class="row filters-wrapper__checkbox">
-              <div class="filters-wrapper__checkbox__container">
-                <div class="row" v-for="(item, index) in localities">
-                  <input type="checkbox" class="checkbox"
-                         :id="index"
-                         :value = "item.locality_name"
-                         :key = "index"
-                         v-model = "filters.checkedCity"
-                  >
-                  <label :for="index">{{item.locality_name}}</label>
+              <div class="row filters-wrapper__title">
+                <h6>Города</h6>
+              </div>
+              <div class="row filters-wrapper__checkbox">
+                <div class="filters-wrapper__checkbox__container">
+                  <div class="row" v-for="(item, index) in localities">
+                    <input type="checkbox" class="checkbox"
+                           :id="index"
+                           :value = "item.locality_name"
+                           :key = "index"
+                           v-model = "filters.checkedCity"
+                    >
+                    <label :for="index">{{item.locality_name}}</label>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="row filters-wrapper__buttons mt-2">
               <div class="col-md-6 filters-wrapper__buttons--purple">
-                <button type="button" class = "btn btn-block" @click = "updateDiagram">Показать</button>
+                <button type="button" class = "btn btn-block" @click = "updateContent">Показать</button>
               </div>
               <div class="col-md-6 filters-wrapper__buttons--default">
                 <button type="button" class = "btn btn-default btn-block">Отчет</button>
@@ -124,7 +143,7 @@
   import Header from "../components/Header"
   import CityChart from "../components/City/CityStatChart"
   import Footer from  "../components/Footer"
-  import {LMap, LTileLayer, LCircle} from 'vue2-leaflet';
+  import {LMap, LTileLayer, LCircle,LPopup} from 'vue2-leaflet';
 
   export default {
     name: "City",
@@ -132,6 +151,7 @@
       LMap,
       LTileLayer,
       LCircle,
+      LPopup,
       appHeader: Header,
       cityChart: CityChart,
       appFooter : Footer
@@ -143,6 +163,13 @@
         checkedRegions : [],
         localities : [],
         pickedContent : 'diagram',
+        mapData : [],
+        circleOptions : {
+          color : '#673AB7',
+          fillOpacity: '0.5',
+          fillColor : ''
+        },
+        load: false,
         zoom: 3,
         center : [66.25, 94.14],
         url: 'https://api.tiles.mapbox.com/v4/mapbox.light/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiY2hydHlha2EiLCJhIjoiY2ptYzMxeWtvMDQ3ZzN2bzlpd3BlZnFmdiJ9.ybOJY_NY-PPYXv7bVUm1jQ',
@@ -168,6 +195,9 @@
     computed: {
       chartData() {
         return this.dataChart
+      },
+      criteriaListHeight(){
+        return this.pickedContent === 'diagram' ? '15vh' : '49vh'
       }
     },
     methods: {
@@ -189,24 +219,52 @@
           }
         }
       },
-      updateDiagram(){
-        this.$http.post('get_feature_locality', this.filters).then(response => {
-          let result = response.body;
-          this.dataChart = {};
-          this.dataChart['labels'] = result.labels;
-          this.dataChart['datasets'] = [];
-          for (let el in result.datasets) {
-            result.datasets[el]['backgroundColor'] = this.pickColor();
-            result.datasets[el]['fill'] = true;
-            result.datasets[el]['borderWidth'] = 1;
+      updateContent(){
+        if (this.pickedContent === 'diagram'){
+          this.$http.post('get_feature_locality', this.filters).then(response => {
+            let result = response.body;
+            this.dataChart = {};
+            this.dataChart['labels'] = result.labels;
+            this.dataChart['datasets'] = [];
+            for (let el in result.datasets) {
+              result.datasets[el]['backgroundColor'] = this.pickColor();
+              result.datasets[el]['fill'] = true;
+              result.datasets[el]['borderWidth'] = 1;
 
-            this.dataChart.datasets.push(result.datasets[el])
-          }
-        })
+              this.dataChart.datasets.push(result.datasets[el])
+            }
+          })
+        }else {
+          this.load = true;
+          this.$http.post('init_map', this.filters).then(response => {
+            this.mapData = response.body;
+            let color = this.pickColor();
+            this.circleOptions.color = color;
+            this.circleOptions.fillColor = color;
+            this.load = false
+          })
+        }
+
       },
       pickColor(){
         let o = Math.round, r = Math.random, s = 255;
         return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
+      },
+      initMap(){
+        this.pickedContent = 'map';
+        if (this.mapData.length === 0) {
+          this.load = true;
+          if(this.filters.checkedFeature.length === 0){
+            this.filters.checkedFeature.push('Численность населения')
+          }
+          this.$http.post('init_map', this.filters).then(response => {
+            this.mapData = response.body;
+            let color = this.pickColor()
+            this.circleOptions.color = color;
+            this.circleOptions.fillColor = color;
+            this.load = false
+          })
+        }
       }
     },
     mounted(){
@@ -216,6 +274,7 @@
       this.$http.post('get_area').then(response => {
         this.regions = response.body;
       });
+
     },
     updated() {
       this.$refs.map.mapObject.invalidateSize()
@@ -240,6 +299,7 @@
   .diagram-wrapper {
     display: flex;
     position: relative;
+    padding: 0;
     @include align-items(flex-start);
     flex-direction: column;
     height: 78vh;
@@ -249,8 +309,10 @@
     .map-container {
       width: 100%;
       height: 89%;
-      padding-top: 10px;
+      position: relative;
+      z-index: 5;
     }
+
     .btn-switch {
       display: flex;
       width: 100%;
