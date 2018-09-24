@@ -39,35 +39,40 @@
                   <input type="radio" name="options" autocomplete="off"> Карта
                 </label>
               </div>
+              <a class="data-dimension"
+                 v-show="dimensionLink"
+                 @click = "updateDiagramDimension"
+              >Показать в <span>{{dataDimension}}</span></a>
             </div>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="filters-wrapper mt-3">
-            <div class="row filters-wrapper__title">
-              <h6 class="pb-0">Период</h6>
-            </div>
-            <form>
-              <div class="form-row filters-wrapper__year-inputs mt-1">
-                <div class="col">
-                  <div class="md-form filters-wrapper__year-inputs--from">
-                    <input type="number" class="form-control" placeholder="От" min="2010"
-                           max="2017"
-                           step="1"
-                           v-model="filters.yearMin">
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="md-form filters-wrapper__year-inputs--to">
-                    <input type="number" class="form-control" placeholder="До" min="2010"
-                           max="2017"
-                           step="1"
-                           v-model="filters.yearMax">
-                  </div>
-                </div>
+            <div v-show="pickedContent === 'diagram'">
+              <div class="row filters-wrapper__title">
+                <h6 class="pb-0">Период</h6>
               </div>
-            </form>
-
+              <form>
+                <div class="form-row filters-wrapper__year-inputs mt-1">
+                  <div class="col">
+                    <div class="md-form filters-wrapper__year-inputs--from">
+                      <input type="number" class="form-control" placeholder="От" min="2010"
+                             max="2017"
+                             step="1"
+                             v-model="filters.yearMin">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="md-form filters-wrapper__year-inputs--to">
+                      <input type="number" class="form-control" placeholder="До" min="2010"
+                             max="2017"
+                             step="1"
+                             v-model="filters.yearMax">
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
             <div class="row filters-wrapper__title">
               <h6>Критерии</h6>
             </div>
@@ -83,10 +88,23 @@
                          :key = "index"
                          :value = "item.feature_name"
                          v-model="filters.checkedFeature"
+                         @click = "updateFeature(item)"
                   >
                   <label :for="'feature' + index">{{item.feature_name}}</label>
                 </div>
               </div>
+            </div>
+            <div v-show="pickedContent === 'map'">
+              <form>
+                <div class="form-group row filters-wrapper__year-map">
+                  <label for="yearMap" class="col-sm-2 col-form-label">Год</label>
+                  <div class="col-sm-10">
+                    <div class="md-form mt-0">
+                      <input type="number" class="form-control" id="yearMap" min = "2010" max = "2017" v-model="mapYear">
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
             <div v-show="pickedContent === 'diagram'">
               <div class="row filters-wrapper__title">
@@ -164,6 +182,8 @@
         localities : [],
         pickedContent : 'diagram',
         mapData : [],
+        mapYear : '2010',
+        dimensionLink : true,
         circleOptions : {
           color : '#673AB7',
           fillOpacity: '0.5',
@@ -180,7 +200,8 @@
           checkedCity : [],
           checkedFeature : [],
           yearMin : '2010',
-          yearMax : '2017'
+          yearMax : '2017',
+          percent : true
         },
         dataChart: {
           labels: [],
@@ -197,7 +218,10 @@
         return this.dataChart
       },
       criteriaListHeight(){
-        return this.pickedContent === 'diagram' ? '15vh' : '49vh'
+        return this.pickedContent === 'diagram' ? '15vh' : '43vh'
+      },
+      dataDimension(){
+        return this.filters.percent === true ? "числах" : "процентах"
       }
     },
     methods: {
@@ -244,7 +268,30 @@
             this.load = false
           })
         }
+      },
+      updateFeature(item){
+        this.filters.checkedFeature = [];
+        this.filters.checkedFeature.push(item.feature_name);
 
+        this.filters.percent = item.dimension === 'Тыс. человек' || item.dimension === "Тысяч";
+        this.dimensionLink = item.dimension === 'Тыс. человек' || item.dimension === "Тысяч"
+
+      },
+      updateDiagramDimension(){
+        this.filters.percent = !this.filters.percent;
+        this.$http.post('get_feature_locality', this.filters).then(response => {
+          let result = response.body;
+          this.dataChart = {};
+          this.dataChart['labels'] = result.labels;
+          this.dataChart['datasets'] = [];
+          for (let el in result.datasets) {
+            result.datasets[el]['backgroundColor'] = this.pickColor();
+            result.datasets[el]['fill'] = true;
+            result.datasets[el]['borderWidth'] = 1;
+
+            this.dataChart.datasets.push(result.datasets[el])
+          }
+        })
       },
       pickColor(){
         let o = Math.round, r = Math.random, s = 255;
@@ -316,6 +363,7 @@
     .btn-switch {
       display: flex;
       width: 100%;
+      margin: 0;
       @include align-items(center);
       @include justify-content(center);
 
@@ -329,7 +377,14 @@
       input {
         display: none;
       }
+
+      .data-dimension {
+        color: $primary-color;
+        margin-left: 10%;
+        text-decoration: underline;
+      }
     }
+
   }
 
   .filters-wrapper {
@@ -351,6 +406,16 @@
       }
     }
 
+    &__year-map {
+      margin: 0;
+      padding-left: 20%;
+      padding-right: 20%;
+
+      .form-control {
+        padding-bottom: 0;
+        padding-top: .5rem;
+      }
+    }
     &__year-inputs {
 
       &--from {
