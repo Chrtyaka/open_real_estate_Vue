@@ -8,17 +8,18 @@
             <city-chart
                 :chart-data="chartData"
                 :options="optionsChart"
-                :style="{width: '100%', height : '89%'}"
+                :style="{width: '100%', height : '88%'}"
                 v-show="pickedContent === 'diagram'"
               />
+
             <div class="map-container" v-show="pickedContent === 'map'">
               <l-map ref="map" :zoom="zoom" :center="center">
                 <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
                 <l-circle v-for="item in mapData"
                           :lat-lng = "item.coord"
                           :radius = "2500"
-                          :color = "circleOptions.color"
-                          :fillColor = "circleOptions.fillColor"
+                          :color = "item.color"
+                          :fillColor = "item.color"
                 >
                   <l-popup>
                     <h5>{{item.city}}</h5>
@@ -30,19 +31,28 @@
                 </div>
               </l-map>
             </div>
+
             <div class="row btn-switch">
-              <div class="btn-group" data-toggle="buttons">
-                <label class="btn active" @click = "pickedContent = 'diagram'">
-                  <input type="radio" name="options" autocomplete="off">Диаграмма
-                </label>
-                <label class="btn" @click = "initMap()">
-                  <input type="radio" name="options" autocomplete="off"> Карта
-                </label>
+              <div class="col-6 btn-group-wrap">
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn active" @click = "pickedContent = 'diagram'; dimensionLink = true">
+                    <input type="radio" name="options" autocomplete="off">Диаграмма
+                  </label>
+                  <label class="btn" @click = "initMap()">
+                    <input type="radio" name="options" autocomplete="off"> Карта
+                  </label>
+                </div>
               </div>
-              <a class="data-dimension"
-                 v-show="dimensionLink"
-                 @click = "updateDiagramDimension"
-              >Показать в <span>{{dataDimension}}</span></a>
+              <div class="col-6 dimension-link-wrap">
+                <transition
+                  leave-active-class="animated fadeOut"
+                  enter-active-class="animated fadeIn">
+                  <a class="data-dimension"
+                     v-show="dimensionLink"
+                     @click = "updateContentDimension"
+                  >Показать в <span>{{dataDimension}}</span></a>
+                </transition>
+              </div>
             </div>
           </div>
         </div>
@@ -73,15 +83,16 @@
                 </div>
               </form>
             </div>
+
             <div class="row filters-wrapper__title">
               <h6>Критерии</h6>
             </div>
-            <div class="row filters-wrapper__title" v-show="pickedContent === 'map'">
-              <h6 v-bind:style="{color : '#673AB7'}"><sup>*</sup>Выберите один критерий</h6>
-            </div>
+
             <div class="row filters-wrapper__checkbox">
               <div class="filters-wrapper__checkbox__container"
-                   v-bind:style="{height: criteriaListHeight, overflowY : pickedContent === 'map' ? 'hidden': 'scroll'}">
+                   v-bind:style="{height: criteriaListHeight,
+                   overflowY : pickedContent === 'map' ? 'hidden': 'scroll',
+                   transition : '.5s'}">
                 <div class="row" v-for="(item, index) in criteriaList.features">
                   <input type="checkbox" class="checkbox"
                          :id="'feature' + index"
@@ -94,6 +105,7 @@
                 </div>
               </div>
             </div>
+
             <div v-show="pickedContent === 'map'">
               <form>
                 <div class="form-group row filters-wrapper__year-map">
@@ -106,46 +118,54 @@
                 </div>
               </form>
             </div>
-            <div v-show="pickedContent === 'diagram'">
-              <div class="row filters-wrapper__title">
-                <h6>Регионы</h6>
-              </div>
-              <div class="row filters-wrapper__checkbox">
-                <div class="filters-wrapper__checkbox__container">
-                  <div class="row" v-for="item in regions.area">
-                    <input type="checkbox" class="checkbox"
-                           :id="'area' + item.area_id"
-                           :value = "item.area_name"
-                           :key = "item.area_id"
-                           v-model="checkedRegions"
-                           @change = "loadLocality"
-                    >
-                    <label :for="'area' + item.area_id">{{item.area_name}}</label>
+
+            <transition
+              mode = "out-in"
+              duration="500"
+              leave-active-class="animated fadeOut"
+              enter-active-class="animated fadeIn">
+              <div v-show="pickedContent === 'diagram'">
+                <div class="row filters-wrapper__title">
+                  <h6>Регионы</h6>
+                </div>
+                <div class="row filters-wrapper__checkbox">
+                  <div class="filters-wrapper__checkbox__container">
+                    <div class="row" v-for="item in regions.area">
+                      <input type="checkbox" class="checkbox"
+                             :id="'area' + item.area_id"
+                             :value = "item.area_name"
+                             :key = "item.area_id"
+                             v-model="checkedRegions"
+                             @change = "loadLocality"
+                      >
+                      <label :for="'area' + item.area_id">{{item.area_name}}</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row filters-wrapper__title">
+                  <h6>Города</h6>
+                </div>
+                <div class="row filters-wrapper__checkbox">
+                  <div class="filters-wrapper__checkbox__container">
+                    <div class="row" v-for="(item, index) in localities">
+                      <input type="checkbox" class="checkbox"
+                             :id="index"
+                             :value = "item.locality_name"
+                             :key = "index"
+                             v-model = "filters.checkedCity"
+                      >
+                      <label :for="index">{{item.locality_name}}</label>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="row filters-wrapper__title">
-                <h6>Города</h6>
-              </div>
-              <div class="row filters-wrapper__checkbox">
-                <div class="filters-wrapper__checkbox__container">
-                  <div class="row" v-for="(item, index) in localities">
-                    <input type="checkbox" class="checkbox"
-                           :id="index"
-                           :value = "item.locality_name"
-                           :key = "index"
-                           v-model = "filters.checkedCity"
-                    >
-                    <label :for="index">{{item.locality_name}}</label>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </transition>
+
             <div class="row filters-wrapper__buttons mt-2">
-              <div class="col-md-6 filters-wrapper__buttons--purple">
+              <div class="col-lg-6 filters-wrapper__buttons--purple">
                 <button type="button" class = "btn btn-block" @click = "updateContent">Показать</button>
               </div>
-              <div class="col-md-6 filters-wrapper__buttons--default">
+              <div class="col-lg-6 filters-wrapper__buttons--default">
                 <button type="button" class = "btn btn-default btn-block">Отчет</button>
               </div>
             </div>
@@ -183,7 +203,7 @@
         pickedContent : 'diagram',
         mapData : [],
         mapYear : '2010',
-        dimensionLink : true,
+        dimensionLink : false,
         circleOptions : {
           color : '#673AB7',
           fillOpacity: '0.5',
@@ -260,24 +280,18 @@
           })
         }else {
           this.load = true;
-          this.$http.post('init_map', this.filters).then(response => {
-            this.mapData = response.body;
-            let color = this.pickColor();
-            this.circleOptions.color = color;
-            this.circleOptions.fillColor = color;
-            this.load = false
-          })
+          this.loadDataMap()
         }
       },
       updateFeature(item){
         this.filters.checkedFeature = [];
         this.filters.checkedFeature.push(item.feature_name);
 
+        this.dimensionLink = (item.dimension === 'Тыс. человек' || item.dimension === "Тысяч")
+          && item.feature_name !== "Численность населения" && this.pickedContent !== 'map';
         this.filters.percent = item.dimension === 'Тыс. человек' || item.dimension === "Тысяч";
-        this.dimensionLink = item.dimension === 'Тыс. человек' || item.dimension === "Тысяч"
-
       },
-      updateDiagramDimension(){
+      updateContentDimension(){
         this.filters.percent = !this.filters.percent;
         this.$http.post('get_feature_locality', this.filters).then(response => {
           let result = response.body;
@@ -299,19 +313,26 @@
       },
       initMap(){
         this.pickedContent = 'map';
+        this.dimensionLink = false;
         if (this.mapData.length === 0) {
           this.load = true;
           if(this.filters.checkedFeature.length === 0){
             this.filters.checkedFeature.push('Численность населения')
           }
-          this.$http.post('init_map', this.filters).then(response => {
-            this.mapData = response.body;
-            let color = this.pickColor()
-            this.circleOptions.color = color;
-            this.circleOptions.fillColor = color;
-            this.load = false
-          })
+          this.loadDataMap()
+
         }
+      },
+      loadDataMap(){
+        let mapFilters = {
+          checkedFeature : this.filters.checkedFeature,
+          year : this.mapYear,
+          percent: this.filters.percent
+        };
+        this.$http.post('init_map', mapFilters).then(response => {
+          this.mapData = response.body;
+          this.load = false
+        })
       }
     },
     mounted(){
@@ -331,7 +352,6 @@
 
 <style lang="scss" scoped>
   @import "../css/main";
-
   .md-form, .form-control {
     margin: 0 !important;
   }
@@ -341,6 +361,8 @@
     margin-top: 50px;
     background-color: #f3f5f6;
     height: calc(100vh - 108px);
+
+    overflow: hidden;
   }
 
   .diagram-wrapper {
@@ -355,7 +377,7 @@
 
     .map-container {
       width: 100%;
-      height: 89%;
+      height: 88%;
       position: relative;
       z-index: 5;
     }
@@ -363,25 +385,37 @@
     .btn-switch {
       display: flex;
       width: 100%;
-      margin: 0;
-      @include align-items(center);
-      @include justify-content(center);
+      margin-right: 0;
+      margin-left: 0;
+      margin-top: .5rem;
 
-      .btn {
-        background-color: $primary-color-light;
-      }
-      .active {
-        background-color: $primary-color;
+      .btn-group-wrap{
+        display: flex;
+        @include align-items(center);
+        @include justify-content(flex-end);
+        .btn-group {
+          transition: .5s;
+          .btn {
+            background-color: $primary-color-light;
+          }
+          .active {
+            background-color: $primary-color;
+          }
+          input {
+            display: none;
+          }
+        }
       }
 
-      input {
-        display: none;
-      }
-
-      .data-dimension {
-        color: $primary-color;
-        margin-left: 10%;
-        text-decoration: underline;
+      .dimension-link-wrap{
+        display: flex;
+        @include align-items(center);
+        @include justify-content(center);
+        .data-dimension {
+          color: $primary-color;
+          margin-left: 10%;
+          text-decoration: underline;
+        }
       }
     }
 
