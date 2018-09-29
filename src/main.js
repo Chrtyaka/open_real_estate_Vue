@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
+import Vuetify from 'vuetify'
 import {routes} from "./routes";
 import "leaflet/dist/leaflet.css"
 import {store} from "./store/store";
@@ -17,6 +18,7 @@ L.Icon.Default.mergeOptions({
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
+Vue.use(Vuetify);
 Vue.http.options.root = 'http://127.0.0.1:5000/';
 Vue.http.headers.common['Access-Control-Allow-Origin'] = '*';
 const router = new VueRouter({
