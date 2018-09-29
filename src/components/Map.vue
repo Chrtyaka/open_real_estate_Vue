@@ -68,8 +68,10 @@
         zoom: 11,
         mapOptions: {zoomControl: false},
         center: L.latLng(55.7820534, 37.5680638),
-        url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        url: 'https://api.tiles.mapbox.com/v4/mapbox.light/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiY2hydHlha2EiLCJhIjoiY2ptbWNjaXE1MDRweDN3bXQ4ejAxaWF1eCJ9.GTuo_yF4eeE_2GhF3ZNg2A',
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
         customIcons: {
           defaultIcon: L.icon({
             iconUrl: require('../assets/icons/marker.png'),
@@ -146,7 +148,7 @@
       this.list = this.$store.state.listObjects;
       for (let el in this.list) {
         let cord = [this.list[el].lat, this.list[el].lng];
-        this.list[el]['coord'] = cord
+        this.list[el]['coord'] = cord;
 
         this.list[el]['icon'] = 'defaultIcon'
       }
