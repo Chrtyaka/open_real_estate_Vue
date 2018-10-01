@@ -40,7 +40,7 @@
               </a>
             </li>
           </router-link>
-          <router-link :to="{name : 'price', params : {tabname : 'Квартиры'}}" tag="li">
+          <router-link :to="{name : 'price'}" tag="li">
             <li class="nav-item">
               <a class="nav-link waves-effect" v-bind:class="brandText">
                 Расчет цен
@@ -160,7 +160,7 @@
     }
 
     .navbar-nav {
-      width: 700px;
+      width: 600px;
       @include align-items(center);
       @include justify-content(flex-end);
       text-transform: uppercase;
@@ -170,7 +170,7 @@
       @include justify-content(flex-end);
       @include align-items(center);
       height: 43px;
-      width: 300px;
+      width: 400px;
       padding-left: 1rem;
 
       .region-dropdown {
