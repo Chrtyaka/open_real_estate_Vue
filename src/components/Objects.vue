@@ -39,6 +39,8 @@
 
               <app-building v-model="filters.commercial.buildings" v-show="filters.propertyType === 'Здания'"/>
 
+              <app-garage v-model="filters.commercial.garages" v-show="filters.propertyType === 'Гаражи'"/>
+
 
             </v-flex>
 
@@ -72,6 +74,7 @@
   import ApartmentsSecond from  "../components/FullFilters/ApartmentsSecond"
   import Garden from "../components/FullFilters/Gardens"
   import Building from "../components/FullFilters/Buildings"
+  import Garage from  "../components/FullFilters/Garages"
     export default {
     components : {
       appFooter : Footer,
@@ -80,7 +83,8 @@
       apartmentsFirst : ApartmentsFirst,
       apartmentsSecond : ApartmentsSecond,
       appGardens : Garden,
-      appBuilding : Building
+      appBuilding : Building,
+      appGarage : Garage
     },
       data(){
         return {
@@ -154,6 +158,15 @@
                 classBuild: '',
                 lineBuild: '',
                 yearConstruction : ''
+              },
+              garages : {
+                typeGarage : '',
+                typeConstruction: '',
+                status: '',
+                heating: '',
+                length: '',
+                width: '',
+                parameters: []
               }
             }
           }
