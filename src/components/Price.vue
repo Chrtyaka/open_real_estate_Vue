@@ -53,7 +53,7 @@
               borderWidth: 1
             },
             {
-              label: "Pornhub views",
+              label: "Youtube views",
               borderColor: '#673ab6',
               backgroundColor: 'rgba(103, 58, 182, 0.54)',
               data: [6000000, 7500000],
