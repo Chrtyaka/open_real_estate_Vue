@@ -35,9 +35,11 @@
                 </div>
               </transition>
 
-              <div v-show="filters.propertyType === 'Участки'">
-                <app-gardens v-model="filters.gardens"/>
-              </div>
+              <app-gardens v-model="filters.gardens" v-show="filters.propertyType === 'Участки'"/>
+
+              <app-building v-model="filters.commercial.buildings" v-show="filters.propertyType === 'Здания'"/>
+
+
             </v-flex>
 
             <!-- Special filters -->
@@ -69,6 +71,7 @@
   import ApartmentsFirst from "../components/FullFilters/ApartmentsFirst"
   import ApartmentsSecond from  "../components/FullFilters/ApartmentsSecond"
   import Garden from "../components/FullFilters/Gardens"
+  import Building from "../components/FullFilters/Buildings"
     export default {
     components : {
       appFooter : Footer,
@@ -76,13 +79,13 @@
       commonFilters : Common,
       apartmentsFirst : ApartmentsFirst,
       apartmentsSecond : ApartmentsSecond,
-      appGardens : Garden
+      appGardens : Garden,
+      appBuilding : Building
     },
       data(){
         return {
           name : 'Objects',
           typeObjects : ['Квартиры', 'Комнаты','Дома', 'Участки','Гаражи','Офисы','Торговые площади','Склады','Помещения','Здания'],
-
 
 
           filters : {
@@ -145,6 +148,13 @@
             gardens : {
               typeGarden : '',
               otherParameters : []
+            },
+            commercial : {
+              buildings : {
+                classBuild: '',
+                lineBuild: '',
+                yearConstruction : ''
+              }
             }
           }
         }

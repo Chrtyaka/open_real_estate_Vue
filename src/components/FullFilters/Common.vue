@@ -75,7 +75,7 @@
         </v-flex>
       </v-layout>
 
-      <div v-show="typeObject !== 'Дома' && typeObject !=='Участки'">
+      <div v-show="typeObject !== 'Дома' && typeObject !=='Участки'&& typeObject !== 'Здания'">
         <v-layout row justify-space-between wrap>
           <v-flex lg5>
             <v-text-field
