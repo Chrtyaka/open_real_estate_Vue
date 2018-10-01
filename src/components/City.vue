@@ -15,11 +15,12 @@
             <div class="map-container" v-show="pickedContent === 'map'">
               <l-map ref="map" :zoom="zoom" :center="center">
                 <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-                <l-circle v-for="item in mapData"
+                <l-circle v-for="(item, index) in mapData"
                           :lat-lng = "item.coord"
                           :radius = "2500"
                           :color = "item.color"
                           :fillColor = "item.color"
+                          :key = "index"
                 >
                   <l-popup>
                     <h5>{{item.city}}</h5>
