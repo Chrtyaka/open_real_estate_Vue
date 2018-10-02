@@ -109,9 +109,7 @@
 
 
   .filters-wrapper {
-    position: absolute;
     width: 100%;
-    height: 100%;
     padding-left: 10px;
     padding-right: 10px;
     background-color: $primary-color-text;
