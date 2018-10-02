@@ -1,46 +1,49 @@
 <template>
   <div>
     <app-header :name-component="name"/>
-    <div class="container-fluid map-container" v-bind:style="mapContainerStyle">
-      <l-map ref="map" v-bind:style="mapStyle" :zoom="zoom" :center="center" :options="mapOptions">
-        <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-        <div v-for="item in list">
-          <l-marker :lat-lng="item.coord" :icon="customIcons[item.icon]" @click="showInfo(item)" :key="item.id">
-          </l-marker>
+    <v-app id = "small-filters">
+      <div class="container-fluid map-container" v-bind:style="mapContainerStyle">
+        <l-map ref="map" v-bind:style="mapStyle" :zoom="zoom" :center="center" :options="mapOptions">
+          <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+          <div v-for="item in list">
+            <l-marker :lat-lng="item.coord" :icon="customIcons[item.icon]" @click="showInfo(item)" :key="item.id">
+            </l-marker>
+          </div>
+        </l-map>
+        <div class="left-middle-block">
+          <button type="button" class="btn btn-deep-purple  lighten-2 btn-circle" @click="userLocate()"><i
+            class="fa fa-location-arrow fa-1x"></i></button>
+          <button type="button" class="btn btn-deep-purple  lighten-2 btn-circle" @click="zPlus()"><i
+            class="fa fa-plus fa-1x"></i></button>
+          <button type="button" class="btn btn-deep-purple  lighten-2 btn-circle" @click="zMinus()"><i
+            class="fa fa-minus fa-1x"></i></button>
         </div>
-      </l-map>
-      <div class="left-middle-block">
-        <button type="button" class="btn btn-deep-purple  lighten-2 btn-circle" @click="userLocate()"><i
-          class="fa fa-location-arrow fa-1x"></i></button>
-        <button type="button" class="btn btn-deep-purple  lighten-2 btn-circle" @click="zPlus()"><i
-          class="fa fa-plus fa-1x"></i></button>
-        <button type="button" class="btn btn-deep-purple  lighten-2 btn-circle" @click="zMinus()"><i
-          class="fa fa-minus fa-1x"></i></button>
-      </div>
-      <div class="btn-sidebar" @click="showSidebar()">
-        <img class="btn-sidebar-img">
-      </div>
-    </div>
-    <transition
-      enter-active-class="animated slideInRight"
-      leave-active-class="animated slideOutRight">
-      <div class="filters-sidebar-wrapper" v-show="sideBar">
-        <appFilters type="Квартиры"></appFilters>
-      </div>
-    </transition>
-    <div class=" container info-object z-depth-2" v-bind:style="{ height : infoSize}">
-      <div class="row info-object__header">
-        <span class="info-object__header__address">Ваш объект</span>
-        <div class="info-object__header__buttons">
-          <i class="fa fa-window-minimize" @click="infoObjectContent = !infoObjectContent"></i>
+        <div class="btn-sidebar" @click="showSidebar()">
+          <img class="btn-sidebar-img">
         </div>
       </div>
-      <transition enter-active-class="animated fadeIn"
-                  leave-active-class="animated fadeOut">
-        <app-object-info v-show="infoObjectContent" :infoData="infoData"/>
+      <transition
+        enter-active-class="animated slideInRight"
+        leave-active-class="animated slideOutRight">
+        <div class="filters-sidebar-wrapper" v-show="sideBar">
+          <appFilters></appFilters>
+        </div>
       </transition>
+      <div class=" container info-object z-depth-2" v-bind:style="{ height : infoSize}">
+        <div class="row info-object__header">
+          <span class="info-object__header__address">Ваш объект</span>
+          <div class="info-object__header__buttons">
+            <i class="fa fa-window-minimize" @click="infoObjectContent = !infoObjectContent"></i>
+          </div>
+        </div>
+        <transition enter-active-class="animated fadeIn"
+                    leave-active-class="animated fadeOut">
+          <app-object-info v-show="infoObjectContent" :infoData="infoData"/>
+        </transition>
 
-    </div>
+      </div>
+    </v-app>
+
   </div>
 </template>
 
@@ -164,6 +167,15 @@
 <style lang="scss" scoped>
 
   @import "../css/main";
+
+  #small-filters {
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+
+    .row {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
 
   .map-container {
 
