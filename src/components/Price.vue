@@ -1,25 +1,32 @@
 <template>
   <div>
     <app-header :name-component="name"/>
-    <div class="container-fluid price-wrapper">
-      <div class="row pt-5">
-        <div class="col-lg-8 price-content">
-          <div class="price-content__title">
-            <h4>Расчетная стоимость объекта: {{price}} руб.</h4>
-          </div>
-          <div class="price-content__diagram container mt-3">
-            <price-chart :chartData="dataChart" :options="optionsChart" :style="{width : '100%'}"/>
-          </div>
-          <div class="price-content__analogs mt-3 mb-3">
-            <h5 class="pt-2">Похожие объекты</h5>
+    <v-app id = "price">
+      <v-container fluid class = "price-wrapper">
+        <v-layout row wrap class ="mt-3">
+          <v-flex lg12 class ="price-content__title">
+            <h3>Рассчетная стоимость объекта: {{price}}</h3>
+          </v-flex>
+          <v-flex lg8 class = "price-content">
+            <v-layout row wrap>
+              <v-container class = "price-content__diagram container mt-2 mr-3">
+                <price-chart :chartData="dataChart" :options="optionsChart" :style="{width : '100%'}"/>
+              </v-container>
+            </v-layout>
+            <v-layout row wrap justify-center>
+              <h3 class="pt-2" v-bind:style="{color : '#673ab6'}">Похожие объекты</h3>
+            </v-layout>
+            <v-container>
 
-          </div>
-        </div>
-        <div class="col-lg-4 filters-wrapper" style="box-shadow:0 4px 8px 0 rgba(0,0,0,.07);">
-          <appFilters :component="name" :type="type"></appFilters>
-        </div>
-      </div>
-    </div>
+            </v-container>
+          </v-flex>
+          <v-flex lg4 style="box-shadow:0 4px 8px 0 rgba(0,0,0,.07)">
+            <app-filters/>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-app>
+
     <appFooter nameComponent="Цена"></appFooter>
   </div>
 </template>
@@ -89,15 +96,22 @@
 <style lang="scss" scoped>
   @import "../css/main";
 
+  #price {
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    margin-top: 50px;
+    .row {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
   .price-wrapper {
     padding-left: 5rem;
     padding-right: 5rem;
-    margin-top: 50px;
-    background-color: #f4f5f6;
 
     .price-content {
       &__title {
-        h4 {
+        h3 {
           color: $primary-color;
           margin-bottom: 0;
         }
