@@ -61,7 +61,107 @@ export const store = new Vuex.Store({
           thumbnailLink: 'homepage-trade-area.jpg'
         }
       ],
-    }
+    },
+    filtersData : {
+      propertyType: '',
+      common: {
+        city: 'Волгоград',
+        dateSubmit: 'За любую дату',
+        status: 'Вторичка',
+        price: {
+          min: 100000,
+          max: 2000000
+        },
+        pricePm: {
+          min: 10000,
+          max: 100000
+        },
+        floor: {
+          min: 1,
+          max: 50
+        },
+        countFloors: {
+          min: 1,
+          max: 50
+        },
+        totalArea: {
+          min: 1,
+          max: 1000
+        },
+        ceilingHeight: {
+          min: 2,
+          max: 10
+        }
+      },
+      apartments: {
+        typeHouse: '',
+        countRooms: [],
+        roomsArea: {
+          min: 1,
+          max: 500
+        },
+        livingArea: {
+          min: 1,
+          max: 500
+        },
+        kitchenArea: {
+          min: 1,
+          max: 500
+        },
+        bathroom: '',
+        balcony: [],
+        lift: '',
+        serviceLift: false,
+        parking: '',
+        repairs: '',
+        seller: '',
+        windowView: '',
+        heating: '',
+        otherParameters: []
+      },
+      gardens: {
+        typeGarden: '',
+        otherParameters: []
+      },
+      commercial: {
+        common: {
+          entrance: '',
+          repairs: '',
+          parking: '',
+          parameters: ''
+        },
+        offices : {
+          layout : ''
+        },
+        premises : {
+          typePremises : '',
+          specialization: '',
+        },
+        stocks : {
+          crane : '',
+          gate : ''
+        },
+        buildings: {
+          classBuild: '',
+          lineBuild: '',
+          yearConstruction: '',
+          ventilation : '',
+          conditioning: '',
+          heating : '',
+          firefighting : ''
+        },
+        garages: {
+          typeGarage: '',
+          typeConstruction: '',
+          status: '',
+          heating: '',
+          length: '',
+          width: '',
+          parameters: []
+        }
+      }
+    },
+
   },
   mutations: {
     toCard(state, list){
@@ -75,9 +175,13 @@ export const store = new Vuex.Store({
     },
     changeCurrentTypeRealEstate(state, value){
       state.currentTypeRealEstate = value;
+    },
+    changeFiltersData(state,value) {
+      state.filtersData = value;
     }
   },
   getters: {
-    homeCategoryCards: state => state.homeCategoryCards
+    homeCategoryCards: state => state.homeCategoryCards,
+    filtersData : state => state.filtersData
   }
 });
