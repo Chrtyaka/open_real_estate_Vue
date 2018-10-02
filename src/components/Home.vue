@@ -380,6 +380,7 @@
 
         .link-list-item {
           color: $primary-color-dark;
+          font-size: 1.2rem;
           position: relative;
         }
         .link-list-item::before {
