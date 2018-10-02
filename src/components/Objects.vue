@@ -62,7 +62,7 @@
           </v-flex>
         </v-layout>
         <v-layout row justify-center>
-          <v-btn large color="deep-purple" class="white--text">Применить</v-btn>
+          <v-btn large color="deep-purple" class="white--text" @click = "updateData">Применить</v-btn>
         </v-layout>
       </v-container>
     </v-app>
@@ -106,110 +106,19 @@
         name: 'Objects',
         residentialType : ['Квартиры', 'Комнаты', 'Дома', 'Участки'],
         commercialType : ['Гаражи', 'Офисы', 'Склады', 'Помещения', 'Здания'],
-        filters: {
-          propertyType: '',
-          common: {
-            city: 'Волгоград',
-            dateSubmit: 'За любую дату',
-            status: 'Вторичка',
-            price: {
-              min: 100000,
-              max: 2000000
-            },
-            pricePm: {
-              min: 10000,
-              max: 100000
-            },
-            floor: {
-              min: 1,
-              max: 50
-            },
-            countFloors: {
-              min: 1,
-              max: 50
-            },
-            totalArea: {
-              min: 1,
-              max: 1000
-            },
-            ceilingHeight: {
-              min: 2,
-              max: 10
-            }
-          },
-          apartments: {
-            typeHouse: '',
-            countRooms: [],
-            roomsArea: {
-              min: 1,
-              max: 500
-            },
-            livingArea: {
-              min: 1,
-              max: 500
-            },
-            kitchenArea: {
-              min: 1,
-              max: 500
-            },
-            bathroom: '',
-            balcony: [],
-            lift: '',
-            serviceLift: false,
-            parking: '',
-            repairs: '',
-            seller: '',
-            windowView: '',
-            heating: '',
-            otherParameters: []
-          },
-          gardens: {
-            typeGarden: '',
-            otherParameters: []
-          },
-          commercial: {
-            common: {
-              entrance: '',
-              repairs: '',
-              parking: '',
-              parameters: ''
-            },
-            offices : {
-              layout : ''
-            },
-            premises : {
-              typePremises : '',
-              specialization: '',
-            },
-            stocks : {
-              crane : '',
-              gate : ''
-            },
-            buildings: {
-              classBuild: '',
-              lineBuild: '',
-              yearConstruction: '',
-              ventilation : '',
-              conditioning: '',
-              heating : '',
-              firefighting : ''
-            },
-            garages: {
-              typeGarage: '',
-              typeConstruction: '',
-              status: '',
-              heating: '',
-              length: '',
-              width: '',
-              parameters: []
-            }
-          }
-        }
+      }
+    },
+    methods : {
+      updateData(){
+        this.$store.commit('changeFiltersData', this.filters)
       }
     },
     computed : {
       typeObjects(){
         return this.residentialType.concat(this.commercialType)
+      },
+      filters(){
+        return this.$store.getters.filtersData
       }
     },
     mounted() {
@@ -232,17 +141,9 @@
   }
 
   .full-filters-wrapper {
-    width: 100%;
-    background-color: $primary-color-text;
-    margin-top: 50px;
-  }
-
-  .full-filters {
-    height: 100%;
-
-    &__type-object {
-      padding-top: 2rem;
-    }
-  }
+     width: 100%;
+     background-color: $primary-color-text;
+     margin-top: 50px;
+   }
 
 </style>
