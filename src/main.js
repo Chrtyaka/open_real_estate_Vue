@@ -7,6 +7,8 @@ import {routes} from "./routes";
 import "leaflet/dist/leaflet.css"
 import {store} from "./store/store";
 
+import * as VueGoogleMaps from "vue2-google-maps";
+
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -19,6 +21,14 @@ L.Icon.Default.mergeOptions({
 Vue.use(VueResource);
 Vue.use(VueRouter);
 Vue.use(Vuetify);
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyBkSQ8kdH9R44slv1LvqZ4DEfI-J5oXecE",
+    libraries: "places" // necessary for places input
+  }
+});
+
 Vue.http.options.root = 'http://127.0.0.1:5000/';
 Vue.http.headers.common['Access-Control-Allow-Origin'] = '*';
 const router = new VueRouter({
