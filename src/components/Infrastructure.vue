@@ -18,7 +18,7 @@
         },
         methods: {
             greet: function() {
-                alert("mdakaneshna");
+                alert("mdakaneshnaaaaaa");
             }
         },
         components: {
